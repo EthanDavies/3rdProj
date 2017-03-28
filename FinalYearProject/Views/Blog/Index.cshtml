@@ -1,0 +1,77 @@
+﻿@model PagedList.IPagedList<FinalYearProject.Models.BlogViewModel>
+@using FinalYearProject.Controllers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = BlogController.checkCatList;
+}
+
+<div class="blogContainer">
+    <div class="mainblogview">
+        @{
+            Html.RenderPartial("Posts");
+         }
+    </div>
+    <div class="mainblogbar">
+        
+
+    <div class="blogControlPanel">
+        @using (Html.BeginForm("Index", "Blog", FormMethod.Get, new { @class = "indexSearchForm" }))
+            {
+                if (ViewBag.CurrentSearchCategory != null)
+                {
+                    foreach (var item in ViewBag.CurrentSearchCategory)
+                    {
+                    <input type="hidden" name="searchCategory" value="@item" />
+                }
+            }
+            
+            <input type="hidden" name="sortOrder" value="@ViewBag.CurrentSort" />
+                <input type="search" name="searchString" value="@ViewBag.CurrentSearchString" placeholder="Search..." />
+                <input type="submit" value="&#128270;" style="background:none;border:none;" />
+        }
+        
+        @using (Html.BeginForm("Index", "Blog", FormMethod.Get, new { @class = "indexFilterForm" }))
+            {
+            <table class="blogCtrlTable">
+                <tr>
+                    <td><a class="blgCtrlPnl" title="Categories">Categories</a></td>
+                </tr>
+                <tr>
+                    <td style="width:100%;">
+                        @foreach (var cat in categories)
+                        {
+                            <div style="width:45%;float:left;">
+                                @if (cat.Checked)
+                                {
+                                    <input type="checkbox" name="searchCategory" value="@cat.Category.Name" checked="checked" /> @cat.Category.Name
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="searchCategory" value="@cat.Category.Name" /> @cat.Category.Name
+                                }
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                </tr>
+                <tr>
+                    <td style="width:100%;">
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" name="page" value="1" />
+                        <input type="hidden" name="sortOrder" value="@ViewBag.CurrentSort" />
+                        <input type="hidden" name="searchString" value="@ViewBag.CurrentSearchString" />
+                        <input class="indexFiltBtn" type="submit" value="Filter" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+        </div>
+</div>
+

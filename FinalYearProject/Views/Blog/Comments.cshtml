@@ -1,0 +1,141 @@
+﻿@model PostViewModel
+@using FinalYearProject.Models
+@using FinalYearProject.Controllers
+@using Microsoft.AspNet.Identity
+@using System.Web
+
+
+<div class="bottomContainer">
+    <div class="commentContainer">
+        <div class="commHeader">
+            <table class="commentSort">
+                <tr>                    
+                    <td>@Html.ActionLink("Date", "Post", "Blog", new { slug = Model.UrlSeo, sortOrder = ViewBag.DateSortParm }, new { @id = ViewBag.DateSortLink })</td>
+                </tr>
+            </table>
+            
+
+            @if (Model.Comments.Count() == 1)
+            {<a>@Model.Comments.Count() Comment </a>}
+            else if (Model.Comments.Count() > 1)
+            {<a>@Model.Comments.Count() Comments </a>}
+        </div>
+        <hr />
+        @if (Request.IsAuthenticated)
+        {            
+            BlogController blgCtrl = new BlogController();
+            var ncmDetails = blgCtrl.NewCommentDetails(User.Identity.GetUserName());
+            <table class="newComment">
+                <tr>
+                    <td style="width:50px;vertical-align: top;"><div class="comImg"></div></td>
+                    <td style="vertical-align:middle; min-height:40px;" class="comText" id="@ncmDetails[0]">
+                        @using (Html.BeginForm("NewComment", "Blog", FormMethod.Post, new { @class = "comTextdivParent", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <textarea name="commentBody" id="@ncmDetails[1]"></textarea>
+                            <script>
+                                CKEDITOR.replace('@ncmDetails[1]');
+
+                                $(function () {
+                                    $('input[type="submit"]').click(function () {
+                                        CKEDITOR.instances.ncmDetails[1].updateElement();
+                                    });
+                                });
+
+                            </script>
+                            <div class="comTextSub">
+                                <input value="@Model.UrlSeo" name="slug" type="hidden" />
+                                <input value="@Model.ID" name="postid" type="hidden" />
+                                <input value="@User.Identity.GetUserName()" name="comUserName" type="hidden" />
+                                <input class="comTextBtn" type="submit" value="&#x27a5;" />
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </table>
+        }
+
+        @foreach (var comment in Model.Comments)
+        {
+            BlogController blgCtrl = new BlogController();
+            var cmDetails = blgCtrl.CommentDetails(comment);
+          
+
+            <div class="userComment" id="@cmDetails[4]">
+                <div class="maincomment" id="@cmDetails[5]">
+                    <table class="commentControl" id="@cmDetails[15]">
+                        <tr>
+                            <td><a class="commentExpCtrl" id="@cmDetails[8]" style="font-size:10px;">&mdash;</a></td>
+                            <td>|</td>
+                            
+                        </tr>
+                    </table>
+                    <div class="userImage"><img src="@cmDetails[1]" height="50" width="50" /></div>
+                    <div class="commentUserName"><strong>@cmDetails[0]</strong>&nbsp;&nbsp;<span class="cmntTime">-- @cmDetails[2]</span></div>
+                    <div class="commentDate">@cmDetails[3]</div>
+
+                    <div class="commentExp" id="@cmDetails[7]">
+                        <div class="commentBody">@Html.Raw(comment.Body)</div>
+                        @if (!blgCtrl.CommentDeleteCheck(comment.Id))
+                        {
+                            <div class="replySubMenu">
+                                
+                                <a style="cursor:pointer;" class="comReplyParent" id="@cmDetails[14]">Reply</a>
+                                
+
+                                @if (comment.UserName == User.Identity.GetUserName())
+                                {
+                                    <table class="commentMenu" id="@cmDetails[16]">
+                                        <tr>
+                                            <td><a href="@Url.Action("EditComment", "Blog", new { commentid = comment.Id })" title="Edit"><img src="@Url.Content("~/Content/images/edit.png")" alt="edit" /></a></td>
+                                            <td><a href="@Url.Action("DeleteComment", "Blog", new { commentid = comment.Id })" title="Delete"><img src="@Url.Content("~/Content/images/delete.png")" alt="delete" /></a></td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            if (Request.IsAuthenticated)
+                            {
+                                
+                                <table class="newComment collapseComment" id="">
+                                    <tr>
+                                        <td style="width:50px;vertical-align: top;"><div class="comImg"></div></td>
+                                        <td style="vertical-align:middle; min-height:40px;" class="comText" id="@cmDetails[12]">
+
+                                            @using (Html.BeginForm("NewParentReply", "Blog", FormMethod.Post, new { @class = "comTextdivParent", role = "form" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <textarea name="replyBody" id="@cmDetails[13]"></textarea>
+                                                <script>
+                                                    CKEDITOR.replace('@cmDetails[13]');
+
+
+                                                </script>
+                                                <div class="comTextSub">
+                                                    <input value="@comment.Id" name="commentid" type="hidden" />
+                                                    <input value="@Model.UrlSeo" name="slug" type="hidden" />
+                                                    <input value="@Model.ID" name="postid" type="hidden" />
+                                                    <input value="@User.Identity.GetUserName()" name="comUserName" type="hidden" />
+                                                    <input class="comTextBtn" type="submit" value="&#x27a5;" />
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                        }
+
+                    </div>
+                </div>
+             
+                     <div class="commentreplies" id="@cmDetails[6]">
+                    @{Html.RenderPartial("Replies", new CommentViewModel(comment));}
+                </div>
+                
+               
+
+            </div>
+
+                        }
+    </div>
+</div>
+

@@ -1,0 +1,56 @@
+﻿@model FinalYearProject.Models.PostViewModel
+@using FinalYearProject.Controllers
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = Model.Title;
+    
+    ViewBag.Description = Model.Meta;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts
+{
+    
+<script src="~/Scripts/view.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+}
+
+
+
+
+<div id="postScroll">
+    <div class="postContainer">
+       @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
+       {
+        <a href="@Url.Action("EditPost", "Blog", new { slug = Model.UrlSeo })" title="Edit"><img src="@Url.Content("~/Content/images/edit.png")" width="25" height="25" alt="edit" /></a>
+        <a href="@Url.Action("DeletePost", "Blog", new { postid = Model.ID })" title="Delete"><img src="@Url.Content("~/Content/images/delete.png")" width="25" height="25" alt="delete" /></a>
+        <a href="@Url.Action("PostSeen", "Blog", new { postid = Model.ID })" title="Seen"><img src="@Url.Content("~/Content/images/eye.png")" width="25" height="25" alt="seen" /></a>
+            <div class="postMenu">
+                <div class="postMenuSub">
+                        
+                </div>
+            </div>
+       }
+
+        <div class="postHeader">
+            @if (Model.ID != Model.FirstPostId)
+            {
+                @Html.ActionLink("<< Previous", "Post", "Blog", new { slug = Model.PreviousPostSlug, sortorder = ViewBag.CurrentSort }, new { style = "float:left;" })
+            }
+            @if (Model.ID != Model.LastPostId)
+            {
+                @Html.ActionLink("Next >>", "Post", "Blog", new { slug = Model.NextPostSlug, sortorder = ViewBag.CurrentSort }, new { style = "float:right;" })
+            }
+            
+        </div>
+        <div class="postTitle"><h2>@Model.Title</h2></div>
+        <div class="addthis_sharing_toolbox"></div>
+        
+        @{
+            BlogController blgCtrl = new BlogController();
+        }
+        <div class="postBody">@Html.Raw(Model.Body)</div>
+    </div>
+
+      @{Html.RenderPartial("Comments");}
+ 
+</div>
