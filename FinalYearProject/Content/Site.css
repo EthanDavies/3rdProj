@@ -24,6 +24,12 @@ textarea {
     max-width: 280px;
 }
 
+/*#region ToDo*/
+.CompletedToDo {
+    text-decoration:line-through;
+}
+/*#endregion ToDo*/
+
 /*#region Blog*/
 .blogContainer {
     overflow: hidden;

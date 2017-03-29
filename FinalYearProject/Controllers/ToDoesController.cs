@@ -16,15 +16,18 @@ namespace FinalYearProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ToDoes
+        [Authorize]
         public ActionResult Index()
         {
-            string currentUserId = User.Identity.GetUserId();
+            /*string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault(
                 x => x.Id == currentUserId);
-            return View(db.ToDos.ToList().Where(x => x.User == currentUser));
+            return View(db.ToDos.ToList().Where(x => x.User == currentUser));*/
+            return View();
         }
 
         // GET: ToDoes/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -39,16 +42,36 @@ namespace FinalYearProject.Controllers
             return View(toDo);
         }
 
-        public ActionResult BuildToDoTable()
+        private IEnumerable<ToDo> GetMyToDoes()
         {
             string currentUserId = User.Identity.GetUserId();
             ApplicationUser currentUser = db.Users.FirstOrDefault(
                 x => x.Id == currentUserId);
-            return PartialView("_ToDoTable",
-                db.ToDos.ToList().Where(x => x.User == currentUser));
+
+            IEnumerable<ToDo> myToDoes = db.ToDos.ToList().Where(x => x.User == currentUser);
+
+            int completeCount = 0;
+            foreach (ToDo toDo in myToDoes)
+            {
+                if (toDo.IsDone)
+                {
+                    completeCount++;
+                }
+            }
+
+            ViewBag.Percent = Math.Round(100f * ((float)completeCount / (float)myToDoes.Count()));
+
+            return myToDoes;
+        }
+
+        public ActionResult BuildToDoTable()
+        {
+            
+            return PartialView("_ToDoTable", GetMyToDoes());
         }
 
         // GET: ToDoes/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -59,6 +82,7 @@ namespace FinalYearProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,Description,IsDone")] ToDo toDo)
         {
             if (ModelState.IsValid)
@@ -75,7 +99,29 @@ namespace FinalYearProject.Controllers
             return View(toDo);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult AJAXCreate([Bind(Include = "Id,Description")] ToDo toDo)
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault(
+                    x => x.Id == currentUserId);
+                toDo.User = currentUser;
+                toDo.IsDone = false;
+                db.ToDos.Add(toDo);
+                db.SaveChanges();
+                
+            }
+
+            return PartialView("_ToDoTable", GetMyToDoes());
+        }
+
         // GET: ToDoes/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -87,6 +133,14 @@ namespace FinalYearProject.Controllers
             {
                 return HttpNotFound();
             }
+
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault(
+                x => x.Id == currentUserId);
+            if(toDo.User != currentUser)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             return View(toDo);
         }
 
@@ -95,6 +149,7 @@ namespace FinalYearProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Description,IsDone")] ToDo toDo)
         {
             if (ModelState.IsValid)
@@ -106,7 +161,31 @@ namespace FinalYearProject.Controllers
             return View(toDo);
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult AJAXEdit(int? id, bool value)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ToDo toDo = db.ToDos.Find(id);
+            if (toDo == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                toDo.IsDone = value;
+                db.Entry(toDo).State = EntityState.Modified;
+                db.SaveChanges();
+                return PartialView("_ToDoTable", GetMyToDoes());
+            }
+            
+        }
+
         // GET: ToDoes/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
