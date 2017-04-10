@@ -271,6 +271,9 @@ textarea {
 
 
 /*#region Post*/
+
+
+
 .postContainer {
     background-color: rgba(255, 255, 255, 0.70);
     border-radius: 10px;
@@ -280,6 +283,7 @@ textarea {
     overflow: hidden;
 
 }
+
 
     .postContainer .postHeader {
         overflow: hidden;

@@ -17,6 +17,7 @@
     {
         <tr>
             <td>
+                <div class="desc" style="display: none;">@item.Description></div>
                 @if (!item.IsDone)
                 {
                     @Html.DisplayFor(modelItem => item.Description)
@@ -33,6 +34,7 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <button type="button" id="button-speak" class="button">Speak</button>
             </td>
         </tr>
     }
@@ -40,3 +42,34 @@
 </table>
 
 <script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
+
+<script type="text/javascript">
+    $(document.getElementById('button-speak').addEventListener('click', function() {
+
+        var body = $('.desc').text();
+
+        speak(body);
+
+// say a message
+function speak(text, callback) {
+    var u = new SpeechSynthesisUtterance();
+    u.text = text;
+    u.lang = 'en-US';
+
+    u.onend = function () {
+        if (callback) {
+            callback();
+        }
+    };
+
+    u.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    };
+
+    speechSynthesis.speak(u);
+}
+
+}));
+</script>

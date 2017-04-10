@@ -7,11 +7,57 @@
     ViewBag.Description = Model.Meta;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @section Scripts
 {
     
 <script src="~/Scripts/view.js"></script>
     <script src="~/ckeditor/ckeditor.js"></script>
+
+
+<script type="text/javascript">
+    $(document.getElementById('button-speak').addEventListener('click', function() {
+
+        var title = $('.title').text();
+        var body = $('.body').text();
+        speak(title);
+
+        speak(body);
+
+// say a message
+function speak(text, callback) {
+    var u = new SpeechSynthesisUtterance();
+    u.text = text;
+    u.lang = 'en-US';
+
+    u.onend = function () {
+        if (callback) {
+            callback();
+        }
+    };
+
+    u.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    };
+
+    speechSynthesis.speak(u);
+}
+
+document.getElementById('button-stop').addEventListener('click', function () {
+    speechSynthesis.cancel();
+    
+});
+document.getElementById('button-pause').addEventListener('click', function () {
+    speechSynthesis.pause();
+});
+document.getElementById('button-resume').addEventListener('click', function () {
+    speechSynthesis.resume();
+});
+
+}));
+</script>
 }
 
 
@@ -19,6 +65,14 @@
 
 <div id="postScroll">
     <div class="postContainer">
+
+        <div class="buttons-wrapper">
+            <button type="button" id="button-speak" class="button">Speak</button>
+            <button type="button" id="button-stop" class="button">Stop</button>
+            <button type="button" id="button-pause" class="button">Pause</button>
+            <button type="button" id="button-resume" class="button">Resume</button>
+        </div>
+
        @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
        {
         <a href="@Url.Action("EditPost", "Blog", new { slug = Model.UrlSeo })" title="Edit"><img src="@Url.Content("~/Content/images/edit.png")" width="25" height="25" alt="edit" /></a>
@@ -49,8 +103,11 @@
             BlogController blgCtrl = new BlogController();
         }
         <div class="postBody">@Html.Raw(Model.Body)</div>
+        <div class="body" style="display: none;">@Model.Body</div>
+        <div class="title" style="display: none;">@Model.Title</div>
     </div>
 
       @{Html.RenderPartial("Comments");}
  
 </div>
+
