@@ -4,10 +4,10 @@
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+
 <div>
     <h4>ToDo</h4>
     <hr />
@@ -34,8 +34,30 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input id="del" type="submit" value="Delete" class="btn btn-default" /> 
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
 </div>
+
+@section scripts {
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#del').click(function () {
+                swal({
+                    type: "success",
+                    title: "Deleted",
+                    text: "The post has been deleted",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+    </script>
+
+}

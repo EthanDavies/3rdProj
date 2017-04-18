@@ -31,6 +31,7 @@ namespace FinalYearProject.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 
     public class BlogDbContext : DbContext

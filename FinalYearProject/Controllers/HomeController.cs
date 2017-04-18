@@ -35,6 +35,12 @@ namespace FinalYearProject.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin, Lecturer, Student")]
+        public ActionResult Chat()
+        {
+            return View();
+        }
+
         public ActionResult PlayTextArea(string text)
         {
 
@@ -119,5 +125,6 @@ namespace FinalYearProject.Controllers
             return File(mp3Stream.ToArray(), "audio/mp3");
         }
 
+        
     }
 }

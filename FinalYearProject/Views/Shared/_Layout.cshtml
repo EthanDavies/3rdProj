@@ -29,9 +29,18 @@
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
                         <li>@Html.ActionLink("Contact", "SendEmail", "Account")</li>
                         <li>@Html.ActionLink("Courses", "Categories", "Blog")</li>
-                        <li>@Html.ActionLink("Chat Room", "Index", "Chat")</li>
+                        <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
+                        <li>@Html.ActionLink("Material", "Index", "File")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
-                    } 
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
+                        <li>@Html.ActionLink("Contact", "SendEmail", "Account")</li>
+                        <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
+                        <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
+                        <li>@Html.ActionLink("Downloads", "Downloads", "File")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

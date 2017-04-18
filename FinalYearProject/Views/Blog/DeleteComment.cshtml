@@ -4,6 +4,7 @@
     ViewBag.Title = "Delete Comment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
 
 <h1>@ViewBag.Title</h1>
 
@@ -17,8 +18,29 @@
         </div>
         <div class="delaccgrp">
             <input type="hidden" value="@Model.Id" name="commentid" />
-            <input type="submit" value="Delete Comment" class="btn btn-default delaccbtn" />
+            <input id="del" type="submit" value="Delete Comment" class="btn btn-default delaccbtn" />
         </div>
     </div>
 }
 
+@section scripts {
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#del').click(function () {
+                swal({
+                    type: "success",
+                    title: "Deleted",
+                    text: "The comment has been deleted",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+    </script>
+
+}

@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Chat";
+}
+
+
+
+ 
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<fieldset>
+    <legend>Chat Room</legend>
+</fieldset>
+<script src="~/Content/sweetalert.min.js"></script>
+<div class="form-group col-xl-12">
+    <script>
+    swal("Hello World");
+    </script>
+    <label id="label1">Type here!</label><br />
+    <textarea class="form-control" rows="4" cols="40" id="message" placeholder="Share what's in your mind..."></textarea>
+   
+    <br />
+    <input type="button" class="btn btn-primary" id="sendmessage" value="Send" />
+    <br />
+    <br />
+    <label id="label2">Conversation</label>
+    <div class="container chatArea">
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+
+
+        $(function () {
+            
+            var chat = $.connection.chatHub;
+            chat.client.addNewMessageToPage = function (name, message) {
+                $('#discussion').prepend('<ul style="list-style-type:square"><li><strong style="color:red;font-style:normal;font-size:medium;text-transform:uppercase">' + htmlEncode(name) + '  ' + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase">said</strong>'
+                    + '</strong>: ' + '<strong style="color:blue;font-style:oblique;font-size:medium">' + message + '</strong>' + '</li></ul>');
+            };
+
+            
+            swal({
+                title: "Lets Chat!",
+                text: "<span style='color:#f8bb86;font-weight:700;'>Enter your name:</span>",
+                type: "input",
+                html: true,
+                showCancelButton: true,
+                closeOnConfirm: true,
+                animation: "slide-from-top",
+                inputPlaceholder: "Your Name"
+            },
+            function (inputValue) {
+                userName = inputValue;
+                if (inputValue === false) return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to type your name!");
+                    return false;
+                }
+                $('#displayname').val(inputValue);
+            });
+
+            
+            $('#message').focus();
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    $('#message').val('').focus();
+                });
+            });
+        });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        } 
+
+        
+    </script>
+}

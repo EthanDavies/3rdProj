@@ -4,6 +4,7 @@
     ViewBag.Title = "Delete Announcement";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
 
 <h1>@ViewBag.Title</h1>
 
@@ -16,7 +17,29 @@
         </div>
         <div class="delaccgrp">
             <input type="hidden" value="@Model.ID" name="postId" />
-            <input type="submit" value="Delete Post" class="btn btn-default delaccbtn" />
+            <input id="del" type="submit" value="Delete Post" class="btn btn-default delaccbtn" />
         </div>
     </div>
+}
+
+@section scripts {
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#del').click(function () {
+                swal({
+                    type: "success",
+                    title: "Deleted",
+                    text: "The post has been deleted",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+    </script>
+
 }
