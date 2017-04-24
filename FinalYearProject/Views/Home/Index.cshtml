@@ -1,56 +1,307 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
 
-<h1>Text to Speech via MVC</h1>
-<div class="row">
-    <div class="col-sm-4">
+<h1>Homepage</h1>
+<!-- CSS Styles -->
+<style>
+    .speech {
+        border: 1px solid #DDD;
+        width: 300px;
+        padding: 0;
+        margin: 0;
+    }
 
-        <label for="inputText">Type it!</label><br />
-        <textarea id="inputText" class="form-control" rows="5" style="width:100%;"></textarea><br />
-        <button id="playAudio" type="button" class="btn btn-primary btn-lg btn-block">Say it!</button>
+        .speech input {
+            border: 0;
+            width: 240px;
+            display: inline-block;
+            height: 30px;
+        }
 
-        <div id="divAudio_Player" class="hidden">
-            <audio id="audio_player">
-                <source id="audio_player_wav" src="@Url.Action("PlayTextArea", "Home", new { text = "type something in first" })" type="audio/mp3" />
-                <embed height="50" width="100" src="@Url.Action("PlayTextArea", "Home", new { text = "type something in first" })">
-            </audio>
-        </div>
+        .speech img {
+            float: right;
+            width: 40px;
+        }
+</style>
+
+<!-- Search Form -->
+<label for="search">Google search engine (speech reckognition supported)</label>
+
+<form id="labnol" method="get" target="_blank" action="https://www.google.com/search">
+    <div class="speech">
+        <input type="text" name="q" id="transcript" placeholder="Speak" />
+        <img onclick="startDictationGoogle()" src="//i.imgur.com/cHidSVu.gif" />
+        
     </div>
+</form>
 
-</div>
+<label for="searchApp">Use Speech to navigate the website!</label>
+
+<form id="labnol1">
+    <div class="speech">
+        <input type="text" name="q2" id="transcript2" placeholder="Speak" />
+        <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
+        
+    </div>
+</form>
 
 
+<!-- HTML5 Speech Recognition API -->
 
-@section scripts{
+@section scripts {
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
 
-    <script type="text/javascript">
-$(function () {
-
-    speak('Jon likes Iced Tea!');
+<script type="text/javascript">
 
 // say a message
-function speak(text, callback) {
-    var u = new SpeechSynthesisUtterance();
-    u.text = text;
-    u.lang = 'en-US';
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-US';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
 
-    u.onend = function () {
-        if (callback) {
-            callback();
-        }
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
     };
+</script>
 
-    u.onerror = function (e) {
-        if (callback) {
-            callback(e);
+<script>
+    function startDictationGoogle() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+                document.getElementById('labnol').submit();
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
         }
-    };
+    }
+</script>
 
-    speechSynthesis.speak(u);
-}
-});
+<script>
+    function startDictationApplication() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript2').value
+                                         = e.results[0][0].transcript;
+                
+                recognition.stop();
+                if (document.getElementById('transcript2').value == "forum") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to the forum!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Blog/Index';
+                } else if (document.getElementById('transcript2').value == "to do") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you ToDo list!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/ToDoes/Index';
+                } else if (document.getElementById('transcript2').value == "chat room") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you to the chat room",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Home/Chat';
+                } else if (document.getElementById('transcript2').value == "materials") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the downloadable materials",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/File/Downloads';
+                } else if (document.getElementById('transcript2').value == "contact") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the contact page",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Account/SendEm';
+                } else if (document.getElementById('transcript2').value == "account") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to your account",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Manage/Index';
+                } else {
+                    swal({
+                        type: "error",
+                        title: "No such page!",
+                        text: "Please refer to supported voice recogniton pages and try again!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+</script>
+
+
+<script>
+        function chatVoiceCommand() {
+            swal({
+                title: "Speak: Chat Room",
+                text: "The follwoing command will navigate you to the chat room",
+                type: "info",
+                animation: "slide-from-top",
+                closeOnConfirm: true,    
+            });
+            speak("Chat Room");
+        };
+
+        document.getElementById('chatlink').onclick = function () {
+            chatVoiceCommand();
+        };
     </script>
 
+<script>
+        function downloadVoiceCommand() {
+            swal({
+                title: "Speak: Materials",
+                text: "The follwoing command will navigate you to the downloads",
+                type: "info",
+                animation: "slide-from-top",
+                closeOnConfirm: true,
+            });
+            speak("Materials");
+        };
+
+        document.getElementById('downloadlink').onclick = function () {
+            downloadVoiceCommand();
+        };
+</script>
+
+<script>
+        function todoVoiceCommand() {
+            swal({
+                title: "Speak: To Do",
+                text: "The follwoing command will navigate to your ToDo list",
+                type: "info",
+                animation: "slide-from-top",
+                closeOnConfirm: true,
+            });
+            speak("To Do");
+        };
+
+        document.getElementById('todolink').onclick = function () {
+            todoVoiceCommand();
+        };
+</script>
+
+<script>
+        function forumVoiceCommand() {
+            swal({
+                title: "Speak: Forum",
+                text: "The follwoing command will navigate to the forum",
+                type: "info",
+                animation: "slide-from-top",
+                closeOnConfirm: true,
+            });
+            speak("forum");
+        };
+
+        document.getElementById('forumlink').onclick = function () {
+            forumVoiceCommand();
+        };
+</script>
+
 
 }
+
+
+<table>
+    <tr>
+        <td>
+            <div class="chat-row">
+                <a id="chatlink">Chat Room </a>
+                <button type="button" onclick="location.href='@Url.Action("Chat", "Home")'">
+                    <img alt="Chat" title="Join the application chat room" src="~/Content/images/chat.png">
+                </button>
+            </div>
+        </td>  
+        <td>
+            <div class="download-row">
+                <a id="downloadlink">Downloadable Material</a>
+                <button type="button" onclick="location.href='@Url.Action("Downloads", "File")'">
+                    <img alt="Downloads" title="View the available downloads" src="~/Content/images/folder.png">
+                </button>
+            </div>
+        </td>
+        <td>
+            <div class="todo-row">
+                <a id="todolink">ToDo List</a>
+                <button type="button" onclick="location.href='@Url.Action("Index", "ToDoes")'">
+                    <img alt="ToDo" title="View and track your ToDo list" src="~/Content/images/todo.jpeg">
+                </button>
+            </div>
+        </td>
+        <td>
+            <div class="forum-row">
+                <a id="forumlink">Forum Posts</a>
+                <button type="button" onclick="location.href='@Url.Action("Index", "Blog")'">
+                    <img alt="Forum" title="View and add forum posts" src="~/Content/images/forum.png">
+                </button>
+            </div>
+        </td>
+    </tr>
+</table>
+

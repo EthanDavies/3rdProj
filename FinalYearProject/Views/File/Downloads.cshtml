@@ -19,7 +19,7 @@
     {
 
         <tr>
-            <td>@Model[i].ToString() </td>
+            <td>@Model[i].ToString()</td>
             <td>@Html.ActionLink("Download", 
             "Download", new { ImageName = @Model[i].ToString() }) </td>
         </tr>

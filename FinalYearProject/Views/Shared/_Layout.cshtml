@@ -1,5 +1,8 @@
 ﻿<!DOCTYPE html>
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Home", "Index", "Blog", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -27,19 +30,40 @@
                     @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
                     {
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
-                        <li>@Html.ActionLink("Contact", "SendEmail", "Account")</li>
+                        
                         <li>@Html.ActionLink("Courses", "Categories", "Blog")</li>
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("Material", "Index", "File")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
+                        <li>
+                            <form id="labnol2">
+                                <div class="speech3">
+                                    <input type="text" name="q3" id="transcript3" placeholder="Type your destination..." />
+                                    <img onclick="startDictationApplication()" src="~/Content/images/microphone.png" />
+                                </div>
+                            </form>
+                            
+                        </li>
                     }
-                    else
+                    else if (User.IsInRole("Student"))
                     {
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
-                        <li>@Html.ActionLink("Contact", "SendEmail", "Account")</li>
+                        
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
                         <li>@Html.ActionLink("Downloads", "Downloads", "File")</li>
+                        <li>
+
+                            
+                                    <input type="text" name="q2" id="transcript2" placeholder="Speak" />
+                                    <img onclick="startDictationApplication()" src="~/Content/images/microphone.png" />
+                               
+                            
+                        </li>
+                    }
+                    else
+                    {
+
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -56,7 +80,97 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+    <script>
+    function startDictationApplication() {
 
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript3').value
+                                         = e.results[0][0].transcript;
+
+                recognition.stop();
+                if (document.getElementById('transcript3').value == "forum") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to the forum!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Blog/Index';
+                } else if (document.getElementById('transcript3').value == "to do") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you ToDo list!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/ToDoes/Index';
+                } else if (document.getElementById('transcript3').value == "chat room") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you to the chat room",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Home/Chat';
+                } else if (document.getElementById('transcript3').value == "materials") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the downloadable materials",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/File/Downloads';
+                } else if (document.getElementById('transcript3').value == "contact") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the contact page",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Account/SendEmail';
+                } else if (document.getElementById('transcript3').value == "account") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to your account",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Manage/Index';
+                } else {
+                    swal({
+                        type: "error",
+                        title: "No such page!",
+                        text: "Please refer to supported voice recogniton pages and try again!",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

@@ -10,12 +10,15 @@ using System.Speech.Synthesis;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-
+using Microsoft.AspNet.Identity;
+using FinalYearProject.Models;
 
 namespace FinalYearProject.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
             return View();
@@ -38,7 +41,13 @@ namespace FinalYearProject.Controllers
         [Authorize(Roles = "Admin, Lecturer, Student")]
         public ActionResult Chat()
         {
-            return View();
+            string currentUserId = User.Identity.GetUserId();
+            ApplicationUser currentUser = db.Users.FirstOrDefault(
+                x => x.Id == currentUserId);
+
+            List<string> items = new List<string>();
+            items.Add(currentUser.UserName);
+            return View(items);
         }
 
         public ActionResult PlayTextArea(string text)

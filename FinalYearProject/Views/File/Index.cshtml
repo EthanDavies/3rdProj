@@ -1,0 +1,125 @@
+﻿@using FinalYearProject.Models;
+@using FinalYearProject.Controllers
+
+@model UploadModel
+
+
+@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = BlogController.checkCatList;
+}
+
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+
+<h2>Upload Content</h2>
+
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnUploadFile').click(function () {
+                var data = new FormData();
+                var files = $("#fileUpload").get(0).files;
+                // Add the uploaded image content to the form data collection
+                if (files.length > 0) {
+                    data.append("UploadedImage", files[0]);
+                }
+                data.append("Title", $('#Title').val());
+                data.append("Course", $('#Course').val());
+              
+                // Make Ajax request with the contentType = false, and procesDate = false
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "File/Index",
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        swal({
+                            type: "success",
+                            title: "Uploaded",
+                            text: "The file has been uploaded",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    },
+                    error: function () {
+                        swal({
+                            type: "error",
+                            title: "Error",
+                            text: "Something went wrong, please try again!",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    },
+                    data: data
+                });
+                ajaxRequest.done(function (xhr, textStatus) {
+                    
+                });
+    
+            });
+        });
+    </script>
+    }
+
+@using (Html.BeginForm())
+{
+    <div class="uploadContainer">
+        <table>
+
+
+            <tr>
+                <td>Title :</td>
+                <td colspan="2" class="editPostTitle">
+                    @Html.TextBoxFor(m => m.Title, new { @class = "uploadTitleInp" })
+                    @Html.ValidationMessageFor(m => m.Title)
+                </td>
+            </tr>
+
+            <tr>
+                <td>Course :</td>
+                <td>
+                    @{
+                        List<SelectListItem> listItems = new List<SelectListItem>();
+                        foreach (var cat in categories)
+                        {
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = cat.Category.Name,
+                                Value = cat.Category.Name
+                            });
+                        }
+                    }
+
+                    @Html.DropDownListFor(m => m.Course, listItems, "-- Select Status --")
+
+                    @Html.ValidationMessageFor(m => m.Course)
+                </td>
+            </tr>
+
+            <tr>
+                <td>File :</td>
+                <td>
+                    <input type="file" name="FileUpload1" id="fileUpload" required />
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <input id="btnUploadFile" type="button" value="Upload File" />
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+                        }
+    
+
+                        
+                    
+@Html.ActionLink("View Uploads", "Downloads")

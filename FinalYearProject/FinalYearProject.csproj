@@ -231,6 +231,7 @@
     <Compile Include="Models\ChatModel.cs" />
     <Compile Include="Models\MessageServices.cs" />
     <Compile Include="Models\ToDo.cs" />
+    <Compile Include="Models\UploadModel.cs" />
     <Compile Include="Repositories\AnnouncementRepository.cs" />
     <Compile Include="Repositories\IAnnouncementRepository.cs" />
     <Compile Include="Global.asax.cs">
@@ -385,8 +386,7 @@
     <Content Include="Views\ToDoes\Index.cshtml" />
     <Content Include="Views\ToDoes\_ToDoTable.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Sweet\Alert.cshtml" />
-    <Content Include="Views\File\Upload.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\Downloads.cshtml" />
   </ItemGroup>
   <ItemGroup>
