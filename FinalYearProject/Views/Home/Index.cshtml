@@ -2,59 +2,113 @@
     ViewBag.Title = "Home Page";
 }
 <link href="~/Content/sweetalert.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-<h1>Homepage</h1>
-<!-- CSS Styles -->
-<style>
-    .speech {
-        border: 1px solid #DDD;
-        width: 300px;
-        padding: 0;
-        margin: 0;
-    }
+<div class="welcome">
+    <label id="welcomeMessage" for="welcome">Welcome</label>
+</div>
 
-        .speech input {
-            border: 0;
-            width: 240px;
-            display: inline-block;
-            height: 30px;
-        }
+<div class="home">
+    <label id="homeMessage" for="home">This is the application homepage, below you will find useful links and features to get you started on the website.</label>
+</div>
 
-        .speech img {
-            float: right;
-            width: 40px;
-        }
-</style>
+<hr />
+
+<div class="search">
+    <label id="searchMessage" for="home">Searching</label>
+</div>
+
+<div class="searchDesc">
+    <label id="searchDescMessage"for="home">This application supports speech recognition searching, you can use this function to navigate the application or perform searches in Google</label>
+</div>
+
+<div class="googleSearch">
+    <div class="googleLabel"><label for="searchApp">Google Search</label></div>
+    <form id="labnol" method="get" target="_blank" action="https://www.google.com/search">
+        <div class="speech">
+            <input type="text" name="q" id="transcript" placeholder="Speak" />
+            <img onclick="startDictationGoogle()" src="//i.imgur.com/cHidSVu.gif" />
+        </div>
+    </form>
+</div>
+
+<div class="appSearch">
+    <div class="appLabel"><label for="searchApp">Speech Navigation</label></div>
+    
+    <form id="labnol1">
+        <div class="speech">
+            <input type="text" name="q2" id="transcript2" placeholder="Speak" />
+            <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
+        </div>
+    </form>
+</div>
+
+<hr />
 
 <!-- Search Form -->
-<label for="search">Google search engine (speech reckognition supported)</label>
-
-<form id="labnol" method="get" target="_blank" action="https://www.google.com/search">
-    <div class="speech">
-        <input type="text" name="q" id="transcript" placeholder="Speak" />
-        <img onclick="startDictationGoogle()" src="//i.imgur.com/cHidSVu.gif" />
-        
-    </div>
-</form>
-
-<label for="searchApp">Use Speech to navigate the website!</label>
-
-<form id="labnol1">
-    <div class="speech">
-        <input type="text" name="q2" id="transcript2" placeholder="Speak" />
-        <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
-        
-    </div>
-</form>
 
 
+<div class="links">
+    <label id="linksMessage"for="home">Quick Links</label>
+</div>
+
+<div class="linksDesc">
+    <label id="linksDescMessage"for="home">Here are some quick links to get you started with the application, click the text to reveal each links voice command for searching</label>
+</div>
+
+<hr />
+
+<div class="buttons">
+    <table>
+        <tr>
+            <td>
+                <div class="chat-row">
+                    <a class="ror" id="chatlink">Chat Room</a>
+                    <button id="chbtn" type="button" onclick="location.href='@Url.Action("Chat", "Home")'">
+                        <img alt="Chat" title="Join the application chat room" src="~/Content/images/chat.png">
+                    </button>
+                </div>
+            </td>
+            <td>
+                <div class="download-row">
+                    <a id="downloadlink">Downloadable Material</a>
+                    <button type="button" onclick="location.href='@Url.Action("Downloads", "File")'">
+                        <img alt="Downloads" title="View the available downloads" src="~/Content/images/folder.png">
+                    </button>
+                </div>
+            </td>
+            <td>
+                <div class="todo-row">
+                    <a id="todolink">ToDo List</a>
+                    <button type="button" onclick="location.href='@Url.Action("Index", "ToDoes")'">
+                        <img alt="ToDo" title="View and track your ToDo list" src="~/Content/images/todo.jpeg">
+                    </button>
+                </div>
+            </td>
+            <td>
+                <div class="forum-row">
+                    <a id="forumlink">Forum Posts</a>
+                    <button type="button" onclick="location.href='@Url.Action("Index", "Blog")'">
+                        <img alt="Forum" title="View and add forum posts" src="~/Content/images/forum.png">
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<hr />
+
+<div class="homeContainer"> 
+    <label id="quoteMessage" for="quote">"Everybody is a Genius. But If You Judge a Fish by Its Ability to Climb a Tree, It Will Live Its Whole Life Believing that It is Stupid"</label>
+</div>
 <!-- HTML5 Speech Recognition API -->
 
 @section scripts {
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Content/sweetalert.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
 // say a message
     function speak(text, callback) {
@@ -74,9 +128,9 @@
         };
         speechSynthesis.speak(u);
     };
-</script>
+    </script>
 
-<script>
+    <script>
     function startDictationGoogle() {
 
         if (window.hasOwnProperty('webkitSpeechRecognition')) {
@@ -102,9 +156,9 @@
 
         }
     }
-</script>
+    </script>
 
-<script>
+    <script>
     function startDictationApplication() {
 
         if (window.hasOwnProperty('webkitSpeechRecognition')) {
@@ -120,7 +174,7 @@
             recognition.onresult = function(e) {
                 document.getElementById('transcript2').value
                                          = e.results[0][0].transcript;
-                
+
                 recognition.stop();
                 if (document.getElementById('transcript2').value == "forum") {
                     swal({
@@ -193,17 +247,17 @@
 
         }
     }
-</script>
+    </script>
 
 
-<script>
+    <script>
         function chatVoiceCommand() {
             swal({
                 title: "Speak: Chat Room",
                 text: "The follwoing command will navigate you to the chat room",
                 type: "info",
                 animation: "slide-from-top",
-                closeOnConfirm: true,    
+                closeOnConfirm: true,
             });
             speak("Chat Room");
         };
@@ -213,7 +267,7 @@
         };
     </script>
 
-<script>
+    <script>
         function downloadVoiceCommand() {
             swal({
                 title: "Speak: Materials",
@@ -228,9 +282,9 @@
         document.getElementById('downloadlink').onclick = function () {
             downloadVoiceCommand();
         };
-</script>
+    </script>
 
-<script>
+    <script>
         function todoVoiceCommand() {
             swal({
                 title: "Speak: To Do",
@@ -245,9 +299,9 @@
         document.getElementById('todolink').onclick = function () {
             todoVoiceCommand();
         };
-</script>
+    </script>
 
-<script>
+    <script>
         function forumVoiceCommand() {
             swal({
                 title: "Speak: Forum",
@@ -262,46 +316,45 @@
         document.getElementById('forumlink').onclick = function () {
             forumVoiceCommand();
         };
+    </script>
+
+    <script>
+        
+        document.getElementById('homeMessage').onclick = function () {
+            var header = document.getElementById('welcomeMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('homeMessage').innerText;
+            speak((header +stop) + body);
+        };
+    </script>
+
+<script>
+
+        document.getElementById('searchDescMessage').onclick = function () {
+            var header = document.getElementById('searchMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('searchDescMessage').innerText;
+            speak((header +stop) + body);
+        };
 </script>
 
+<script>
+
+        document.getElementById('linksDescMessage').onclick = function () {
+            var header = document.getElementById('linksMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('linksDescMessage').innerText;
+            speak((header +stop) + body);
+        };
+</script>
+
+<script>
+
+        document.getElementById('quoteMessage').onclick = function () {
+            
+            var body = document.getElementById('quoteMessage').innerText;
+            speak(body);
+        };
+</script>
 
 }
-
-
-<table>
-    <tr>
-        <td>
-            <div class="chat-row">
-                <a id="chatlink">Chat Room </a>
-                <button type="button" onclick="location.href='@Url.Action("Chat", "Home")'">
-                    <img alt="Chat" title="Join the application chat room" src="~/Content/images/chat.png">
-                </button>
-            </div>
-        </td>  
-        <td>
-            <div class="download-row">
-                <a id="downloadlink">Downloadable Material</a>
-                <button type="button" onclick="location.href='@Url.Action("Downloads", "File")'">
-                    <img alt="Downloads" title="View the available downloads" src="~/Content/images/folder.png">
-                </button>
-            </div>
-        </td>
-        <td>
-            <div class="todo-row">
-                <a id="todolink">ToDo List</a>
-                <button type="button" onclick="location.href='@Url.Action("Index", "ToDoes")'">
-                    <img alt="ToDo" title="View and track your ToDo list" src="~/Content/images/todo.jpeg">
-                </button>
-            </div>
-        </td>
-        <td>
-            <div class="forum-row">
-                <a id="forumlink">Forum Posts</a>
-                <button type="button" onclick="location.href='@Url.Action("Index", "Blog")'">
-                    <img alt="Forum" title="View and add forum posts" src="~/Content/images/forum.png">
-                </button>
-            </div>
-        </td>
-    </tr>
-</table>
-

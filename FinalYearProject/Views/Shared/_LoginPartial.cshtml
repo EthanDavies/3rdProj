@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))

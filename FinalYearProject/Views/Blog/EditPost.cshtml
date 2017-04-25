@@ -4,7 +4,7 @@
     ViewBag.Title = "EditPost";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 @using (Html.BeginForm("EditPost", "Blog", FormMethod.Post, new { role = "form" }))
 {
     @Html.AntiForgeryToken()

@@ -4,7 +4,7 @@
     ViewBag.Title = "DeleteReply";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 @using (Html.BeginForm("DeleteReply", "Blog", FormMethod.Post, new { @role = "form" }))
 {
     @Html.AntiForgeryToken()

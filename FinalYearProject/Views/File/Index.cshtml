@@ -11,6 +11,7 @@
 }
 
 <link href="~/Content/sweetalert.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <h2>Upload Content</h2>
 
@@ -69,41 +70,10 @@
 {
     <div class="uploadContainer">
         <table>
-
-
-            <tr>
-                <td>Title :</td>
-                <td colspan="2" class="editPostTitle">
-                    @Html.TextBoxFor(m => m.Title, new { @class = "uploadTitleInp" })
-                    @Html.ValidationMessageFor(m => m.Title)
-                </td>
-            </tr>
-
-            <tr>
-                <td>Course :</td>
-                <td>
-                    @{
-                        List<SelectListItem> listItems = new List<SelectListItem>();
-                        foreach (var cat in categories)
-                        {
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = cat.Category.Name,
-                                Value = cat.Category.Name
-                            });
-                        }
-                    }
-
-                    @Html.DropDownListFor(m => m.Course, listItems, "-- Select Status --")
-
-                    @Html.ValidationMessageFor(m => m.Course)
-                </td>
-            </tr>
-
             <tr>
                 <td>File :</td>
                 <td>
-                    <input type="file" name="FileUpload1" id="fileUpload" required />
+                    <input type="file" name="FileUpload1" id="fileUpload" accept="application/pdf" required />
                 </td>
             </tr>
 
@@ -117,7 +87,7 @@
         </table>
 
     </div>
-                        }
+}
     
 
                         

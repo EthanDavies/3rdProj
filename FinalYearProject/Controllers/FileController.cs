@@ -10,39 +10,25 @@ namespace FinalYearProject.Controllers
 {
     public class FileController : Controller
     {
-        
         [Authorize(Roles = "Admin, Lecturer")]
+
         public ActionResult Index()
         {
-            return View(new UploadModel());
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin, Lecturer")]
-        public ActionResult Index([Bind(Include = "Course,Title")] UploadModel testing)
-        {
-
-
-            if (ModelState.IsValid)
+            foreach (string upload in Request.Files)
             {
-                foreach (string upload in Request.Files)
+                if (Request.Files[upload].FileName != "")
                 {
-
-                    if (Request.Files[upload].FileName != "")
-                    {
-                        string path = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/uploads/";
-                        string filename = Path.GetFileName(Request.Files[upload].FileName);
-                        
-                        string newfilename = Path.GetFileName((testing.Title) + "." + "pdf");
-                        Request.Files[upload].SaveAs(Path.Combine(path, filename));
-                    }
+                    string path = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/uploads/";
+                    string filename = Path.GetFileName(Request.Files[upload].FileName);
+                    Request.Files[upload].SaveAs(Path.Combine(path, filename));
                 }
-                return RedirectToAction("Index");
             }
-            //You can use model.Course and model.Title values now
-            
-            return View(testing);
+            return View();
         }
+
+        
+
+        
 
 
         [Authorize(Roles = "Admin, Lecturer, Student")]

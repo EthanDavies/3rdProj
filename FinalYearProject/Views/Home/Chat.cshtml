@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Chat";
 }
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 @model List<string>
 <h1>Chat Room</h1>
@@ -12,10 +13,9 @@
 
 <div class="form-group col-xl-12">
     <label id="label2">Conversation</label>
-    <div class="container chatArea" style="overflow:scroll;height:200px;width:100%;overflow:auto">
+    <div class="containerchatArea" style="overflow:scroll;height:400px;width:100%;overflow:auto">
         <input type="hidden" id="displayname" value=@Model[0].ToString() />
-        <ul id="discussion">
-            
+        <ul id="discussion" class="chatRoom">  
         </ul>
     </div>
     

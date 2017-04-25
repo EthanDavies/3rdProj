@@ -6,13 +6,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>My ToDo List</h2>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="toDo">
+    <label id="toDoMessage" for="toDo">To Do List</label>
+</div>
 
-<div id="tableDiv"></div>
+<div class="toDoDesc">
+    <label id="toDoDescMessage"for="toDoDesc">This is your To-Do list. Here you can add items easily to help remind you of any tasks you need to complete.</label>
+</div>
+
+<hr />
+<form id="labnol1">
+    <div class="speech">
+        <input type="hidden" name="q2" id="transcript" placeholder="Speak" />
+    </div>
+</form>
 
 <div id="todoCreateFrom">
     @using (Ajax.BeginForm("AJAXCreate", "ToDoes", new AjaxOptions
@@ -26,16 +35,124 @@
         <div class="form-group">
             @Html.AntiForgeryToken()
             <div>
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                <table>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" }})
+                            <label for="desc"> : </label>
+
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Description, new { @id = "bxc" } )
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            <img onclick="startDictationToDo()" src="//i.imgur.com/cHidSVu.gif" />
+                        </td>
+                    </tr>
+                </table>
+                
             </div>
         </div>
     }
-        
+
 </div>
 
+<hr />
+<div id="tableDiv"></div>
+
+
+
 @section Scripts {
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Custom_Scripts/BuildTable.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-US';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+</script>
+    <script>
+        document.getElementById('toDoDescMessage').onclick = function () {
+            var header = document.getElementById('toDoMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('toDoDescMessage').innerText;
+            speak((header + stop) + body);
+        };
+    </script>
+<script>
+    /*document.getElementById('todoCreateFrom').onclick = function () {
+            var body = "There are two ways to enter To Do items to your list. You can type them in, then press enter to add them, or you can click the microphone, to add an item using your voice.";
+            speak(body);
+        };*/
+</script>
+<script>
+
+    function startDictationToDo() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-US";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Blog/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    document.getElementById('bxc').value = document.getElementById('transcript').value;
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+</script>
     @Scripts.Render("~/bundles/jqueryval")
 }

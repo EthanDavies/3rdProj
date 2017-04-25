@@ -4498,48 +4498,50 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default .navbar-link {
-  color: white;
+  color: black;
 }
 
 .navbar-default .navbar-link:hover {
-  color: orange;
+  color: deepskyblue;
 }
 
 .navbar-inverse {
-  background-color:lightseagreen;
-  border-color: orange;
+  background-color:white;
+  border-color: #73AD21;
   border-width:medium
 }
 
 .navbar-inverse .navbar-brand {
-  color: white;
+  color: black;
+  
 }
 
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
   color:#ffffff;
-  background-color: orange;
+  background-color: deepskyblue;
+  
 }
 
 .navbar-inverse .navbar-text {
-  color: white;
+  color: black;
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: white;
+  color: black;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
-  background-color: orange;
+  background-color: deepskyblue;
 }
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: orange;
+  background-color: deepskyblue;
 }
 
 .navbar-inverse .navbar-nav > .disabled > a,

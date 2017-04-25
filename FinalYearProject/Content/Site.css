@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -23,6 +24,292 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*#region chat*/
+.containerchatArea {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 10px;
+    margin:5px;
+}
+ul.chatRoom li {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 10px;
+    margin:5px;
+    display: inline-block;
+    max-width:50%;
+    word-break:break-all; 
+}
+
+ul:hover li {
+    opacity: .5;
+}
+
+ul li:hover {
+    opacity: 1;
+
+}
+/*#endregion chat*/
+
+/*#region ToDo*/
+
+.toDo {
+    text-align:center;
+    font-size:80px;
+}
+
+.toDoDesc {
+    text-align:center;
+    font-size:40px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    margin:10px;
+    color:white;
+    background:#73AD21;
+}
+
+.toDoDesc:hover {
+    border-color: #73AD21;
+    background:white;
+    color:black;
+}
+
+.todoCreateForm {
+    font-size:30px;
+    background:white;
+    padding: 20px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+
+}
+
+.todoCreateForm:hover {
+    font-size:30px;
+    background:skyblue;
+    padding: 20px;
+    color:white;
+    border-radius: 25px;
+    border: 2px solid white;
+}
+
+/*#endregion ToDo*/
+
+/*#region Home*/
+.homeContainer {
+    text-align:center;
+    font-size:50px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    color: white;
+    background:#73AD21;
+}
+
+.homeContainer:hover {
+   border-color: #73AD21;
+   background:white;
+   color:black;
+}
+
+.welcome {
+    text-align:center;
+    font-size:80px;
+}
+
+.search {
+    text-align:center;
+    font-size:60px;
+}
+
+.searchDesc {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    background:#73AD21;
+    padding: 20px; 
+    color:white;
+}
+.searchDesc:hover {
+    border-color: #73AD21;
+    background:white;
+    color:black;
+}
+
+.home {
+    text-align:center;
+    font-size:50px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    background:#73AD21;
+    color:white;
+   
+}
+
+.home:hover {
+   border-color: #73AD21;
+   background:white;
+   color:black;
+}
+
+.links {
+    text-align:center;
+    font-size:60px;
+}
+
+.linksDesc {
+    text-align:center;
+    font-size:30px;
+    color: white;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    background:#73AD21;
+
+}
+
+.linksDesc:hover {
+    border-color: #73AD21;
+    background:white;
+    color:black;
+}
+
+.googleSearch .googleLabel{
+    text-align:center;
+    font-size:20px;
+
+}
+
+.appSearch .appLabel {
+    text-align:center;
+    font-size:20px;
+}
+
+.googleSearch .speech {
+        border: 1px solid #DDD;
+        width: 300px;
+        padding: 0;
+        margin: 0;
+    }
+
+        .googleSearch .speech input {
+            border: 0;
+            width: 240px;
+            display: inline-block;
+            height: 30px;
+        }
+
+        .googleSearch .speech img {
+            float: right;
+            width: 40px;
+        }
+
+.appSearch .speech {
+        border: 1px solid #DDD;
+        width: 300px;
+        padding: 0;
+        margin: 0;
+    }
+
+        .appSearch .speech input {
+            border: 0;
+            width: 240px;
+            display: inline-block;
+            height: 30px;
+        }
+
+        .appSearch .speech img {
+            float: right;
+            width: 40px;
+        }
+
+        
+.googleSearch {
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px; 
+    margin: 10px;
+    color:white;
+    background:#0074D9;
+
+
+}
+
+.googleSearch:hover {
+    text-align:center;
+    border-radius: 25px;
+    border: 2px solid black;
+    color:black;
+    padding: 20px; 
+    background:white;
+}
+
+.appSearch {
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px; 
+    margin: 10px;
+    color:white;
+    background:#FF4136;
+
+}
+
+.appSearch:hover {
+    text-align:center;
+    border-radius: 25px;
+    border: 2px solid black;
+    color:black;
+    padding: 20px; 
+    background:white;
+}
+
+.buttons {
+    align-content:center;
+}
+
+/*.buttons .chat-row {
+    background-color:#7FDBFF;
+    border-radius: 25px;
+    background: #3D9970;
+    padding: 20px;
+}
+
+.buttons a {
+    color:white;
+    text-align:center;
+    font-style:italic;
+}
+
+.buttons .download-row {
+    background-color:#7FDBFF;
+    border-radius: 25px;
+    background: #3D9970;
+    padding: 20px;
+}
+
+.buttons .todo-row {
+    background-color:#7FDBFF;
+    border-radius: 25px;
+    background: #3D9970;
+    padding: 20px;
+}
+
+.buttons .forum-row {
+    background-color:#7FDBFF;
+    border-radius: 25px;
+    background: #3D9970;
+    padding: 20px;
+}*/
+
+
+.homeContainer h1{
+    
+}
+
+/*#endregion Home*/
 
 /*#region ToDo*/
 .CompletedToDo {

@@ -4,6 +4,7 @@
     ViewBag.Title = "AddCategoryToPost";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 @using (Html.BeginForm("AddCategoryToPost", "Blog", FormMethod.Post, new { @class = "addCatForm", role = "form" }))
 {
     @Html.AntiForgeryToken()
