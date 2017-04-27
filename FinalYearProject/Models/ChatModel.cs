@@ -5,6 +5,9 @@ using System.Web;
 
 namespace FinalYearProject.Models
 {
+    /// <summary>
+    /// This model class is used to organize data for the chat room
+    /// </summary>
     public class ChatModel
     {
 
@@ -18,6 +21,9 @@ namespace FinalYearProject.Models
         /// </summary>
         public List<ChatMessage> ChatHistory;
 
+        /// <summary>
+        /// Creates the data required for the chat room
+        /// </summary>
         public ChatModel()
         {
             Users = new List<ChatUser>();
@@ -29,6 +35,9 @@ namespace FinalYearProject.Models
             });
         }
 
+        /// <summary>
+        /// The data used to make up a chat user
+        /// </summary>
         public class ChatUser
         {
             public string NickName;

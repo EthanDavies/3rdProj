@@ -5,6 +5,9 @@ using Microsoft.Owin.Security;
 
 namespace FinalYearProject.Models
 {
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
@@ -14,17 +17,26 @@ namespace FinalYearProject.Models
         public bool BrowserRemembered { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class ManageLoginsViewModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
         public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class FactorViewModel
     {
         public string Purpose { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class SetPasswordViewModel
     {
         [Required]
@@ -39,6 +51,9 @@ namespace FinalYearProject.Models
         public string ConfirmPassword { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class ChangePasswordViewModel
     {
         [Required]
@@ -58,6 +73,9 @@ namespace FinalYearProject.Models
         public string ConfirmPassword { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class AddPhoneNumberViewModel
     {
         [Required]
@@ -66,6 +84,9 @@ namespace FinalYearProject.Models
         public string Number { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class VerifyPhoneNumberViewModel
     {
         [Required]
@@ -78,6 +99,9 @@ namespace FinalYearProject.Models
         public string PhoneNumber { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class ConfigureTwoFactorViewModel
     {
         public string SelectedProvider { get; set; }

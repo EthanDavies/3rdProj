@@ -20,6 +20,9 @@ namespace FinalYearProject.Models
         }
     }
 
+    /// <summary>
+    /// This class is used to create the application db context for application users of the system
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -34,6 +37,9 @@ namespace FinalYearProject.Models
 
     }
 
+    /// <summary>
+    /// This class is used to create a database context for all the forum posts in the system
+    /// </summary>
     public class BlogDbContext : DbContext
     {
         public BlogDbContext() : base("BlogConnection")

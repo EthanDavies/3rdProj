@@ -8,6 +8,9 @@ using System.Web;
 
 namespace FinalYearProject.Models
 {
+    /// <summary>
+    /// The model used to structure data contained in a post
+    /// </summary>
     public class Post
     {
 
@@ -46,6 +49,9 @@ namespace FinalYearProject.Models
 
     }
 
+    /// <summary>
+    /// The model used to structure data contained in a category
+    /// </summary>
     public class Category
     {
         public string Id { get; set; }
@@ -66,6 +72,9 @@ namespace FinalYearProject.Models
         public ICollection<PostCategory> PostCategories { get; set; }
     }
 
+    /// <summary>
+    /// The model used to structure data contained in a postcategory
+    /// </summary>
     public class PostCategory
     {
         [Key]
@@ -81,6 +90,9 @@ namespace FinalYearProject.Models
         public Category Category { get; set; }
     }
 
+    /// <summary>
+    /// The model used to structure data contained in a comment
+    /// </summary>
     public class Comment
     {
         public string Id { get; set; }
@@ -99,6 +111,9 @@ namespace FinalYearProject.Models
         
     }
 
+    /// <summary>
+    /// The model used to structure data contained in a reply
+    /// </summary>
     public class Reply
     {
         public string Id { get; set; }
@@ -119,7 +134,9 @@ namespace FinalYearProject.Models
         
     }
 
-
+    /// <summary>
+    /// The view model used to create the view for a forum post
+    /// </summary>
     public class BlogViewModel
     {
         public DateTime PostOn { get; set; }
@@ -137,6 +154,9 @@ namespace FinalYearProject.Models
 
     }
 
+    /// <summary>
+    /// The view model used to create the view for all forum posts
+    /// </summary>
     public class AllPostsViewModel
     {
         public IList<Category> PostCategories { get; set; }
@@ -149,6 +169,9 @@ namespace FinalYearProject.Models
         public string UrlSlug { get; set; }
     }
 
+    /// <summary>
+    /// The view model used to create the view for a single post post
+    /// </summary>
     public class PostViewModel
     {
         public string Body { get; set; }
@@ -171,6 +194,9 @@ namespace FinalYearProject.Models
         public IList<Comment> Comments { get; set; }
     }
 
+    /// <summary>
+    /// The view model used to create the view for post comments
+    /// </summary>
     public class CommentViewModel
     {
         public CommentViewModel() { }
@@ -189,6 +215,9 @@ namespace FinalYearProject.Models
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// The model is used to structure data for who has seen a post
+    /// </summary>
     public class PostSeenModel
     {
         [Key]
@@ -201,6 +230,9 @@ namespace FinalYearProject.Models
         
     }
 
+    /// <summary>
+    /// Model class for the seen users
+    /// </summary>
     public class SeenUsers
     {
         public string Username { get; set; }

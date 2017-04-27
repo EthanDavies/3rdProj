@@ -6,6 +6,9 @@ using System.Web;
 
 namespace FinalYearProject.Repositories
 {
+    /// <summary>
+    /// This is the interface used to set all the variables required to access to databse context
+    /// </summary>
     public interface IAnnouncementRepository : IDisposable
     {
         IList<Post> GetPosts();

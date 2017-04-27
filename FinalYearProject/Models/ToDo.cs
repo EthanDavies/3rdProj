@@ -5,6 +5,9 @@ using System.Web;
 
 namespace FinalYearProject.Models
 {
+    /// <summary>
+    /// This model is used to create the data structure that makes up a todo item
+    /// </summary>
     public class ToDo
     {
         public int Id { get; set; }

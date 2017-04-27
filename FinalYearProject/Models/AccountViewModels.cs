@@ -3,34 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinalYearProject.Models
 {
-
-    public class SendEmailViewModel
-    {
-        [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Recipiant Email")]
-        public string Email { get; set; }
-
-        [Required]
-        [Display(Name = "Body")]
-        public string EmailBody { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Your Email")]
-        public string UserEmail { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Your Password")]
-        public string Password { get; set; }
-
-    }
-
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -38,11 +13,17 @@ namespace FinalYearProject.Models
         public string Email { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
@@ -51,6 +32,9 @@ namespace FinalYearProject.Models
         public bool RememberMe { get; set; }
     }
 
+    /// <summary>
+    /// Default generated view model
+    /// </summary>
     public class VerifyCodeViewModel
     {
         [Required]
@@ -67,6 +51,9 @@ namespace FinalYearProject.Models
         public bool RememberMe { get; set; }
     }
 
+    /// <summary>
+    /// This view model is used for when a user has forgotten a password
+    /// </summary>
     public class ForgotViewModel
     {
         [Required]
@@ -74,6 +61,9 @@ namespace FinalYearProject.Models
         public string Email { get; set; }
     }
 
+    /// <summary>
+    /// This model class provides the accepted model data for the login view model
+    /// </summary>
     public class LoginViewModel
     {
         [Required]
@@ -90,12 +80,18 @@ namespace FinalYearProject.Models
         public bool RememberMe { get; set; }
     }
 
+    /// <summary>
+    /// This enum is used to state available roles a user can choose from on register
+    /// </summary>
     public enum Role
     {
         Lecturer,
         Student
     }
 
+    /// <summary>
+    /// This model class is used for user registration
+    /// </summary>
     public class RegisterViewModel
     {
         [Required]
@@ -119,6 +115,9 @@ namespace FinalYearProject.Models
         public string ConfirmPassword { get; set; }
     }
 
+    /// <summary>
+    /// This model class is used for resetting a password
+    /// </summary>
     public class ResetPasswordViewModel
     {
         [Required]
@@ -140,6 +139,9 @@ namespace FinalYearProject.Models
         public string Code { get; set; }
     }
 
+    /// <summary>
+    /// This model class is used for if a user forgets their password
+    /// </summary>
     public class ForgotPasswordViewModel
     {
         [Required]

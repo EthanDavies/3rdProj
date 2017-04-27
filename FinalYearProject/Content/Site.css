@@ -24,6 +24,308 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*#region about*/
+.aboutMessage {
+    text-align:center;
+    font-size:80px;
+}
+
+.aboutDescMessage {
+    text-align:center;
+    font-size:40px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    margin:10px;
+    color:white;
+    background:#73AD21;
+}
+
+.aboutDescMessage:hover {
+    border-color: #73AD21;
+    background:white;
+    color:black;
+}
+
+.featuresMessage {
+    text-align:center;
+    font-size:60px;
+}
+
+.featuresDescMessage {
+    text-align:center;
+    font-size:40px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    margin:10px;
+    color:white;
+    background:#73AD21;
+}
+
+.featuresDescMessage:hover {
+    border-color: #73AD21;
+    background:white;
+    color:black;
+}
+
+.featuresDiv table {
+    margin:auto;
+    text-align:center;
+}
+
+.featuresDiv #ForumInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ForumInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ProfilesInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ProfilesInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #DictationInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #DictationInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #RecognitionInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #RecognitionInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #DownloadsInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #DownloadsInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ToDoListInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ToDoListInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ChatRoomInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #ChatRoomInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #UIInfo {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+.featuresDiv #UIInfo:hover {
+    text-align:center;
+    font-size:30px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:grey;
+    background:white;
+}
+
+
+.InfoTitle {
+    font-size:40px;  
+}
+
+.InfoMessage {
+    font-size:20px;  
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 10px;
+    margin:5px;
+    color:white;
+    background:skyblue;
+}
+
+
+
+
+
+/*#endregion about*/
+
+/*#region contact*/
+
+.contactHeader {
+    text-align:center;
+    font-size:80px;
+}
+
+.contactMessage {
+    text-align:center;
+    font-size:40px;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    margin:10px;
+    color:white;
+    background:#73AD21;
+}
+
+
+.contactMessage:hover {
+    border-color: #73AD21;
+    background:white;
+    color:black;
+}
+
+.contactEmail {
+    font-size:40px;
+    text-align:center;
+}
+
+.contactEmailAddress {
+    text-align:center;
+    font-size:40px;
+    border-radius: 25px;
+    border: 2px solid skyblue;
+    padding: 20px;
+    margin:10px;
+    color:black;
+    background:white;
+}
+
+.contactEmailAddress:hover {
+    text-align:center;
+    font-size:40px;
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    margin:10px;
+    color:black;
+    background:white;
+}
+
+/*#endregion contact*/
+
 /*#region upload*/
 .uploadTitle{
     text-align:center;

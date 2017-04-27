@@ -22,7 +22,7 @@ namespace FinalYearProject.Controllers
         /// </summary>
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ToDoes
+        // GET: ToDoes/Index
         [Authorize]
         /// <summary>
         /// Index returns the index view attached to the method.

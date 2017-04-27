@@ -6,6 +6,9 @@ using System.Web;
 
 namespace FinalYearProject.Models
 {
+    /// <summary>
+    /// This model is used to create the data structure that makes up an upload
+    /// </summary>
     public class UploadModel
     {
         [Required(ErrorMessage = "Course is required")]

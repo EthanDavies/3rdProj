@@ -9,7 +9,7 @@
 </div>
 
 <div class="home">
-    <label id="homeMessage" for="home">This is the application homepage, below you will find useful links and features to get you started on the website.</label>
+    <label id="homeMessage" for="home">This is the application homepage, below you will find useful links and features to get you started on the website. For more infomation, visit the About page.</label>
 </div>
 
 <hr />
@@ -131,7 +131,7 @@
     function speak(text, callback) {
         var u = new SpeechSynthesisUtterance();
         u.text = text;
-        u.lang = 'en-US';
+        u.lang = 'en-GB';
         u.onend = function () {
             if (callback) {
                 callback();
@@ -238,7 +238,26 @@
                         showConfirmButton: false
                     });
                     window.location.href = 'http://localhost:59658/Manage/Index';
-                } else {
+                } else if (document.getElementById('transcript2').value == "contact") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the contact page",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Home/Contact';
+                } else if (document.getElementById('transcript2').value == "about") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the about page",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Home/About';
+                }
+                else {
                     swal({
                         type: "error",
                         title: "No such page!",
@@ -350,10 +369,10 @@
         };
 
         document.getElementById('appSearchSupport').onclick = function () {
-            var support = "1.) Forum." + '\n' + "2.) To Do." + '\n' + "3.) Chat Room." + '\n' + "4.) Materials." + '\n' + "5.) Account." + '\n' + "6.) Contact."
+            var support = "Forum" + '\n' + ", To Do" + '\n' + ", Chat Room" + '\n' + ", Materials" + '\n' + ", Account" + '\n' + ", Contact" + '\n' + ", About"
             swal({
                 title: "Supported Commands",
-                text: "1.) Forum" + '\n' + "2.) To Do" + '\n' + "3.) Chat Room" + '\n' + "4.) Materials" + '\n' + "5.) Account" + '\n' + "6.) Contact" ,
+                text: "1.) Forum" + '\n' + "2.) To Do" + '\n' + "3.) Chat Room" + '\n' + "4.) Materials" + '\n' + "5.) Account" + '\n' + "6.) Contact" + '\n' + "7.) About" ,
                 type: "info",
                 animation: "slide-from-top",
                 closeOnConfirm: true,

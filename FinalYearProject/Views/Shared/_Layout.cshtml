@@ -27,7 +27,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     
-                    
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
                     {
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
@@ -43,6 +44,7 @@
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
                         <li>@Html.ActionLink("Downloads", "Downloads", "File")</li>
+                        
                         <li>
 
                             
@@ -54,8 +56,10 @@
                     }
                     else
                     {
-
+                        
                     }
+                    
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -141,8 +145,18 @@
                         timer: 2000,
                         showConfirmButton: false
                     });
-                    window.location.href = 'http://localhost:59658/Account/SendEmail';
-                } else {
+                    window.location.href = 'http://localhost:59658/Home/Contact';
+                } else if (document.getElementById('transcript3').value == "about") {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "Taking you to you the about page",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.location.href = 'http://localhost:59658/Home/About';
+                }
+                else {
                     swal({
                         type: "error",
                         title: "No such page!",

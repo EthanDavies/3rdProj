@@ -50,7 +50,7 @@
     function speak(text, callback) {
         var u = new SpeechSynthesisUtterance();
         u.text = text;
-        u.lang = 'en-US';
+        u.lang = 'en-GB';
         u.onend = function () {
             if (callback) {
                 callback();
