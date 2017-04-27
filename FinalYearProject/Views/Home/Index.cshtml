@@ -22,26 +22,43 @@
     <label id="searchDescMessage"for="home">This application supports speech recognition searching, you can use this function to navigate the application or perform searches in Google</label>
 </div>
 
-<div class="googleSearch">
-    <div class="googleLabel"><label for="searchApp">Google Search</label></div>
-    <form id="labnol" method="get" target="_blank" action="https://www.google.com/search">
-        <div class="speech">
-            <input type="text" name="q" id="transcript" placeholder="Speak" />
-            <img onclick="startDictationGoogle()" src="//i.imgur.com/cHidSVu.gif" />
-        </div>
-    </form>
+<hr />
+
+<div class="searching">
+    <table>
+        <tr>
+            <td>
+                <div class="googleSearch">
+                    <div class="googleLabel"><label for="searchApp">Google Search</label></div>
+                    <img onclick="startDictationGoogle()" src="//i.imgur.com/cHidSVu.gif" />
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="appSearch">
+                    <div class="appLabel"><label for="searchApp" id="appSearchSupport">Speech Navigation</label></div>
+                    <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<div class="appSearch">
-    <div class="appLabel"><label for="searchApp">Speech Navigation</label></div>
-    
-    <form id="labnol1">
-        <div class="speech">
-            <input type="text" name="q2" id="transcript2" placeholder="Speak" />
-            <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
-        </div>
-    </form>
-</div>
+<form id="labnol" method="get" target="_blank" action="https://www.google.com/search">
+    <div class="speech">
+        <input type="hidden" name="q" id="transcript" placeholder="Speak" />
+    </div>
+</form>
+
+<form id="labnol1">
+    <div class="speech">
+        <input type="hidden" name="q2" id="transcript2" placeholder="Speak" />
+    </div>
+</form>
+
+
 
 <hr />
 
@@ -212,15 +229,6 @@
                         showConfirmButton: false
                     });
                     window.location.href = 'http://localhost:59658/File/Downloads';
-                } else if (document.getElementById('transcript2').value == "contact") {
-                    swal({
-                        type: "success",
-                        title: "Loud and Clear!",
-                        text: "Taking you to you the contact page",
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                    window.location.href = 'http://localhost:59658/Account/SendEm';
                 } else if (document.getElementById('transcript2').value == "account") {
                     swal({
                         type: "success",
@@ -249,7 +257,6 @@
     }
     </script>
 
-
     <script>
         function chatVoiceCommand() {
             swal({
@@ -265,9 +272,7 @@
         document.getElementById('chatlink').onclick = function () {
             chatVoiceCommand();
         };
-    </script>
 
-    <script>
         function downloadVoiceCommand() {
             swal({
                 title: "Speak: Materials",
@@ -282,9 +287,7 @@
         document.getElementById('downloadlink').onclick = function () {
             downloadVoiceCommand();
         };
-    </script>
 
-    <script>
         function todoVoiceCommand() {
             swal({
                 title: "Speak: To Do",
@@ -299,9 +302,7 @@
         document.getElementById('todolink').onclick = function () {
             todoVoiceCommand();
         };
-    </script>
 
-    <script>
         function forumVoiceCommand() {
             swal({
                 title: "Speak: Forum",
@@ -318,15 +319,6 @@
         };
     </script>
 
-    <script>
-        
-        document.getElementById('homeMessage').onclick = function () {
-            var header = document.getElementById('welcomeMessage').innerText;
-            var stop = ".";
-            var body = document.getElementById('homeMessage').innerText;
-            speak((header +stop) + body);
-        };
-    </script>
 
 <script>
 
@@ -336,9 +328,6 @@
             var body = document.getElementById('searchDescMessage').innerText;
             speak((header +stop) + body);
         };
-</script>
-
-<script>
 
         document.getElementById('linksDescMessage').onclick = function () {
             var header = document.getElementById('linksMessage').innerText;
@@ -346,14 +335,31 @@
             var body = document.getElementById('linksDescMessage').innerText;
             speak((header +stop) + body);
         };
-</script>
-
-<script>
 
         document.getElementById('quoteMessage').onclick = function () {
             
             var body = document.getElementById('quoteMessage').innerText;
             speak(body);
+        };
+
+        document.getElementById('homeMessage').onclick = function () {
+            var header = document.getElementById('welcomeMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('homeMessage').innerText;
+            speak((header + stop) + body);
+        };
+
+        document.getElementById('appSearchSupport').onclick = function () {
+            var support = "1.) Forum." + '\n' + "2.) To Do." + '\n' + "3.) Chat Room." + '\n' + "4.) Materials." + '\n' + "5.) Account." + '\n' + "6.) Contact."
+            swal({
+                title: "Supported Commands",
+                text: "1.) Forum" + '\n' + "2.) To Do" + '\n' + "3.) Chat Room" + '\n' + "4.) Materials" + '\n' + "5.) Account" + '\n' + "6.) Contact" ,
+                type: "info",
+                animation: "slide-from-top",
+                closeOnConfirm: true,
+            });
+
+            speak(support);
         };
 </script>
 

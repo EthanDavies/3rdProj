@@ -13,7 +13,62 @@
 <link href="~/Content/sweetalert.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-<h2>Upload Content</h2>
+<div class="uploadTitle">
+    <label id="upload">Upload Material</label>
+</div>
+
+<div class="uploadMessage">
+    <label id="uploadDesc">Here you can upload Easy Read material for students to download. Uploads are restricted to PDF format.</label>
+</div>
+
+<hr />
+
+<div class="uploadFile">
+    <label id="fileMessage">Select a file to upload.</label>
+</div>
+
+<hr />
+
+@using (Html.BeginForm())
+{
+    <div class="uploadContainer">
+        <table>
+            <tr>
+                <td>
+                    <input type="file" name="FileUpload1" id="fileUpload" accept="application/pdf" required />
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input id="btnUploadFile" type="button" value="Upload File" />
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+}
+    
+<hr />
+
+<div class="downloadsInfo">    
+     <label id="downloadsInfo">Downloads</label>        
+</div>
+
+<div class="downloadsMessage">
+    <label id="downloadsDescMessage">Click the button below to navigate to the downloads page.</label>
+</div>
+
+<div class="downloadsButton">
+    <div class="download-row">
+        <button type="button" onclick="location.href='@Url.Action("Downloads", "File")'">
+            <img alt="Downloads" title="View the available downloads" src="~/Content/images/folder.png">
+        </button>
+    </div>
+</div>
+                        
+                    
 
 @section scripts {
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -30,7 +85,7 @@
                 }
                 data.append("Title", $('#Title').val());
                 data.append("Course", $('#Course').val());
-              
+
                 // Make Ajax request with the contentType = false, and procesDate = false
                 var ajaxRequest = $.ajax({
                     type: "POST",
@@ -58,38 +113,50 @@
                     data: data
                 });
                 ajaxRequest.done(function (xhr, textStatus) {
-                    
+
                 });
-    
+
             });
         });
     </script>
-    }
 
-@using (Html.BeginForm())
-{
-    <div class="uploadContainer">
-        <table>
-            <tr>
-                <td>File :</td>
-                <td>
-                    <input type="file" name="FileUpload1" id="fileUpload" accept="application/pdf" required />
-                </td>
-            </tr>
+<script type="text/javascript">
 
-            <tr>
-                <td></td>
-                <td>
-                    <input id="btnUploadFile" type="button" value="Upload File" />
-                </td>
-            </tr>
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-US';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
 
-        </table>
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+</script>
 
-    </div>
+    <script>
+        document.getElementById('uploadDesc').onclick = function () {
+            var header = document.getElementById('upload').innerText;
+            var stop = ".";
+            var body = document.getElementById('uploadDesc').innerText;
+            speak((header + stop) + body);
+        };
+
+        document.getElementById('downloadsDescMessage').onclick = function () {
+            var header = document.getElementById('downloadsInfo').innerText;
+            var stop = ".";
+            var body = document.getElementById('downloadsDescMessage').innerText;
+            speak((header + stop) + body);
+        };
+
+    </script>
 }
-    
 
-                        
-                    
-@Html.ActionLink("View Uploads", "Downloads")

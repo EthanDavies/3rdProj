@@ -23,7 +23,13 @@
     </div>
 </form>
 
-<div id="todoCreateFrom">
+<div class="item">
+    <label id="enterToDo">Enter To Do items.</label>
+</div>
+
+<hr />
+
+<div class="todoCreateFrom">
     @using (Ajax.BeginForm("AJAXCreate", "ToDoes", new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
@@ -32,33 +38,33 @@
     }))
 
     {
-        <div class="form-group">
+        
             @Html.AntiForgeryToken()
-            <div>
+            <div class="enterItems">
                 <table>
                     <tr>
+                        
                         <td>
-                            @Html.LabelFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" }})
-                            <label for="desc"> : </label>
-
+                            <div class="enterItem">
+                                @Html.TextBoxFor(model => model.Description, new { @id = "bxc" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
                         </td>
                         <td>
-                            @Html.TextBoxFor(model => model.Description, new { @id = "bxc" } )
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            <img onclick="startDictationToDo()" src="//i.imgur.com/cHidSVu.gif" />
+                            <div class="micItem">
+                                <img onclick="startDictationToDo()" src="//i.imgur.com/cHidSVu.gif" />
+                            </div>
                         </td>
                     </tr>
-                </table>
-                
+                </table>   
             </div>
-        </div>
+        
     }
 
 </div>
 
 <hr />
+
 <div id="tableDiv"></div>
 
 
@@ -94,16 +100,11 @@
         document.getElementById('toDoDescMessage').onclick = function () {
             var header = document.getElementById('toDoMessage').innerText;
             var stop = ".";
-            var body = document.getElementById('toDoDescMessage').innerText;
+            var extra ="There are two ways to enter To Do items to your list. You can type them in, then press enter to add them, or you can click the microphone, to add an item using your voice.";
+            var body = document.getElementById('toDoDescMessage').innerText + extra;
             speak((header + stop) + body);
         };
     </script>
-<script>
-    /*document.getElementById('todoCreateFrom').onclick = function () {
-            var body = "There are two ways to enter To Do items to your list. You can type them in, then press enter to add them, or you can click the microphone, to add an item using your voice.";
-            speak(body);
-        };*/
-</script>
 <script>
 
     function startDictationToDo() {

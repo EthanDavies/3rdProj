@@ -378,7 +378,6 @@
     <Content Include="Views\Blog\DeleteReply.cshtml" />
     <Content Include="Views\Blog\PostSeen.cshtml" />
     <Content Include="Views\Account\EmailSent.cshtml" />
-    <Content Include="Views\Account\SendEmail.cshtml" />
     <Content Include="Views\ToDoes\Create.cshtml" />
     <Content Include="Views\ToDoes\Delete.cshtml" />
     <Content Include="Views\ToDoes\Details.cshtml" />

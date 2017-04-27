@@ -435,34 +435,7 @@ namespace FinalYearProject.Controllers
             return body;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-
-        public ActionResult SendEmail()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> SendEmail(SendEmailViewModel model)
-        {
-            var message = await EMailTemplate("WelcomeEmail");
-            message = (model.EmailBody);
-            var userEmail = model.UserEmail;
-            var pass = model.Password;
-            var name = model.FirstName;
-            await MessageServices.SendEmailAsync(model.Email, "Email From ASP .NET Application", message, userEmail, pass, name);
-            return View("EmailSent");
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult EmailSent()
-        {
-            return View();
-        }
-
+        
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

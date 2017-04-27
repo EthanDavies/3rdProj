@@ -2,79 +2,82 @@
 
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-<div id="progressBar">
-    
-    <div class="progress">
-        <div class="progress-bar" role="progressbar"
-             style="width:@(Html.AttributeEncode(ViewBag.Percent))%">
+<div class="tableArea">
+    <div id="progressBar">
 
+        <div class="progress">
+            <div class="progress-bar" role="progressbar"
+                 style="width:@(Html.AttributeEncode(ViewBag.Percent))%">
+            </div>
         </div>
+
     </div>
-    
-</div>
-		
-<div id="table" style="overflow-y: scroll; height:400px;">
-    <table class="table">
+
+    <div id="table" style="overflow-y: scroll; height:400px;">
+        <table class="table">
 
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <div class="desc" style="display: none;">@item.Description></div>
-                    @if (!item.IsDone)
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="desc" style="display: none;">@item.Description></div>
+                        @if (!item.IsDone)
                 {
-                        @Html.DisplayFor(modelItem => item.Description)
-                    }
-                    else
-                    {
-                        <div class="CompletedToDo">@Html.DisplayFor(modelItem => item.Description)</div>
-                    }
-                </td>
-                <td>
-                    @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    
-                </td>
-            </tr>
-        }
+                            @Html.DisplayFor(modelItem => item.Description)
+                        }
+                        else
+                        {
+                            <div class="CompletedToDo">@Html.DisplayFor(modelItem => item.Description)</div>
+                        }
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
 
-    </table>
-</div>
-    <script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
-
-<script type="text/javascript">
-        $(document.getElementById('button-speak').addEventListener('click', function () {
-
-            var body = $('.desc').text();
-
-            speak(body);
-
-            // say a message
-            function speak(text, callback) {
-                var u = new SpeechSynthesisUtterance();
-                u.text = text;
-                u.lang = 'en-US';
-
-                u.onend = function () {
-                    if (callback) {
-                        callback();
-                    }
-                };
-
-                u.onerror = function (e) {
-                    if (callback) {
-                        callback(e);
-                    }
-                };
-
-                speechSynthesis.speak(u);
+                    </td>
+                </tr>
             }
 
-        }));
+        </table>
+    </div>
+</div>
+
+    <script src="~/Custom_Scripts/AddCheckBoxListener.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    // say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-US';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
 </script>
 
-    
+<script>
+        /*var cells = document.getElementsByTagName('td');
+        for (var i = 0; i <= cells.length; i++) {
+            cells[i].addEventListener('click', clickHandler);
+        }
+
+        function clickHandler() {
+            var text = this.textContent;
+            speak(text);
+        }
+        */
+</script>    

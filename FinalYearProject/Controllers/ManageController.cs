@@ -329,7 +329,13 @@ namespace FinalYearProject.Controllers
        
 
         #region Upload Photo
-
+        /// <summary>
+        /// This method is used for uploading a user profile photo for each user,
+        /// the photo is uploaded and updated by calling the view, the photo is,
+        /// then displayed in the navbar
+        /// </summary>
+        /// <param name="file">The file that is to be uploaded</param>
+        /// <returns>returns the index view of the manage controller</returns>
         [HttpPost]
         public async Task<ActionResult> UploadPhoto(HttpPostedFileBase file)
         {

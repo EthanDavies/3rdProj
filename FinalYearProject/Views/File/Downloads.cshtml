@@ -7,8 +7,18 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 @model List<string>
-<h2>Downloads</h2>
-<div class="container downloadArea" style="overflow:scroll;height:200px;width:100%;overflow:auto">
+
+<div class="downloadMessage">
+    <label id="download">Downloads</label>
+</div>
+
+<div class="downloadDescMessage">
+    <label id="description">Here you will find all the Easy Read material. You can download these items by clicking the download link, which is positioned next to each item.</label>
+</div>
+
+<hr />
+
+<div class="containerdownloadArea" style="overflow:scroll;height:800px;width:100%;overflow:auto">
     <table>
         <tr>
             <th>File Name</th>
@@ -24,12 +34,69 @@
                     @Html.ActionLink("Download",
             "Download", new { ImageName = @Model[i].ToString() })
                 </td>
-                <td>
-                    |@Html.ActionLink("View",
-            "Preview")
-                </td>
             </tr>
         }
     </table>
 </div>
-    
+
+
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-US';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+    </script>
+
+    <script>
+        document.getElementById('description').onclick = function () {
+            var header = document.getElementById('download').innerText;
+            var stop = ".";
+            var body = document.getElementById('description').innerText;
+            speak((header + stop) + body);
+        };
+
+
+        document.getElementById('name').onclick = function () {
+            
+            var body = document.getElementById("name").innerText;
+            speak(body);
+        };
+
+
+        
+
+    </script>
+
+
+    <script>
+        var cells = document.getElementsByTagName('td');
+        for (var i = 0; i <= cells.length; i++) {
+            cells[i].addEventListener('click', clickHandler);
+        }
+
+        function clickHandler() {
+            var text = this.textContent;
+            speak(text);
+        }
+
+    </script>
+        }

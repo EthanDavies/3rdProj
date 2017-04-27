@@ -31,20 +31,10 @@
                     @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
                     {
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
-                        
-                        <li>@Html.ActionLink("Courses", "Categories", "Blog")</li>
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("Material", "Index", "File")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
-                        <li>
-                            <form id="labnol2">
-                                <div class="speech3">
-                                    <input type="text" name="q3" id="transcript3" placeholder="Type your destination..." />
-                                    <img onclick="startDictationApplication()" src="~/Content/images/microphone.png" />
-                                </div>
-                            </form>
-                            
-                        </li>
+                        <li><img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" /></li>
                     }
                     else if (User.IsInRole("Student"))
                     {
@@ -56,8 +46,8 @@
                         <li>
 
                             
-                                    <input type="text" name="q2" id="transcript2" placeholder="Speak" />
-                                    <img onclick="startDictationApplication()" src="~/Content/images/microphone.png" />
+                                    <input type="hidden" name="q2" id="transcript2" placeholder="Speak" />
+                                    <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
                                
                             
                         </li>
@@ -78,6 +68,13 @@
             <p>&copy; @DateTime.Now.Year - Ethan's ASP.NET Application</p>
         </footer>
     </div>
+
+
+    <form id="labnol2">
+        <div class="speech3">
+            <input type="hidden" name="q3" id="transcript3" placeholder="" />
+        </div>
+    </form>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -145,15 +142,6 @@
                         showConfirmButton: false
                     });
                     window.location.href = 'http://localhost:59658/Account/SendEmail';
-                } else if (document.getElementById('transcript3').value == "account") {
-                    swal({
-                        type: "success",
-                        title: "Loud and Clear!",
-                        text: "Taking you to your account",
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                    window.location.href = 'http://localhost:59658/Manage/Index';
                 } else {
                     swal({
                         type: "error",

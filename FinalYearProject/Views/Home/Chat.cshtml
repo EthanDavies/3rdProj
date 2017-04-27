@@ -4,41 +4,47 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 @model List<string>
-<h1>Chat Room</h1>
+<div class="chatHeader">
+    <label id="chatMessage">Chat Room</label>
+</div>
 
-<a href="javascript:void(0);" onclick="changeFontSize('content', '2')">
-            Increase font
-</a>
+<div class="chatDescription">
+    <label id="chatDescMessage">Welcome to the chat room. Here you can message with other users who are active in the chat room. You can chat with speech or by typing, and chat messages can also be spoken out loud by clicking on them.</label>
+</div>
 
+<hr />
 
-<div class="form-group col-xl-12">
+<div class="conversationMessage">
     <label id="label2">Conversation</label>
+</div>
+
+
     <div class="containerchatArea" style="overflow:scroll;height:400px;width:100%;overflow:auto">
         <input type="hidden" id="displayname" value=@Model[0].ToString() />
         <ul id="discussion" class="chatRoom">  
         </ul>
     </div>
     
-    <br />
-    <label id="label1">Type here!</label><br />
-    <textarea class="form-control" rows="4" cols="40" id="message" placeholder="Share what's in your mind...">
-     
-    </textarea>
+<hr />
+    
 
+    <div class="textArea">
+        <label id="label1">Type here!</label><br />
+        <textarea class="textContainer" id="message" placeholder="Enter text to chat here..."></textarea>
+        <table>
+            <tr>
+                <td>
+                    <input type="button" class="btn btn-primary" id="sendmessage" value="Send" />
+                </td>
+                <td>
+                    <img onclick="startDictationChat()" src="//i.imgur.com/cHidSVu.gif" />
+                </td>
+            </tr>
+        </table>
+    </div>
     
-    
-   
     <br />
-    <table>
-        <tr>
-            <td>
-                <input type="button" class="btn btn-primary" id="sendmessage" value="Send" />
-            </td>
-            <td>
-                <img onclick="startDictationChat()" src="//i.imgur.com/cHidSVu.gif" />
-            </td>
-        </tr>
-    </table>
+    
     <form id="labnol1">
         <div class="speech">
             <input type="hidden" name="q2" id="transcript" placeholder="Speak"/>
@@ -46,21 +52,20 @@
     </form>
     <br />
     
+
+
+<hr />
+
+<div class="respectHeader">
+    <label id="respectMessage">Respect</label>
 </div>
 
-<p id="content" style="font-size:12px">Test text</p>
-
+<div class="respectDescription">
+    <label id="respectDescMessage">Remember to respect other users in the chat room. No use of explicit, racist or vulgar language. No discussion of any illegal activity or threats of violence.</label>
+</div>
 
 @section scripts {
     <link href="~/Content/sweetalert.css" rel="stylesheet" />
-    <script type="text/javascript">
-        function changeFontSize(element, step) {
-            step = parseInt(step, 10);
-            var el = document.getElementById(element);
-            var curFont = parseInt(el.style.fontSize, 10);
-            el.style.fontSize = (curFont + step) + 'px';
-        }
-    </script>
     <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -68,8 +73,6 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
-
-
         $(function () {
 
             window.onbeforeunload = function (e) {
@@ -78,7 +81,9 @@
 
             var chat = $.connection.chatHub;
             chat.client.addNewMessageToPage = function (name, message) {
-                $('#discussion').prepend('<ul><li>' + htmlEncode(name) + '  ' + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase">:</strong>'
+                var time = "(" + new Date().toLocaleString() + ")" + " ";
+
+                $('#discussion').prepend('<ul><li>' + time + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase"></strong>' + htmlEncode(name) + '  ' + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase">:</strong>'
                      + '<a id="message-speak">' + " " + message + '</a>' + '</li></ul>');
                 
                 function speakMessage() {
@@ -224,4 +229,20 @@
         }
     }
 </script>
+    <script>
+
+        document.getElementById('chatDescMessage').onclick = function () {
+            var header = document.getElementById('chatMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('chatDescMessage').innerText;
+            speak((header + stop) + body);
+        };
+
+        document.getElementById('respectDescMessage').onclick = function () {
+            var header = document.getElementById('respectMessage').innerText;
+            var stop = ".";
+            var body = document.getElementById('respectDescMessage').innerText;
+            speak((header + stop) + body);
+        };
+    </script>
 }
