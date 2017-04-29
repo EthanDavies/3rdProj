@@ -7,6 +7,7 @@
     int postNum = 0;
 }   
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 <div style="overflow:hidden;width:100%;">
     <table style="float:left;">
         <tr>
@@ -101,15 +102,18 @@
 
             @Html.Raw(post.ShortDescription)
             @Html.ActionLink("Read More.. ", "Post", "Blog", new { slug = @post.UrlSlug }, null)
+            
         </div>
        
-
+        
         
     </div>
 }
 
 
+
 <div id="spacer"></div>
+
 <div class="paging">
     <div class="pagenum">
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount

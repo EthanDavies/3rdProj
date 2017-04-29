@@ -27,39 +27,31 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    
                     @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
                     {
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("Material", "Index", "File")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
-                        <li><img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" /></li>
+
                     }
                     else if (User.IsInRole("Student"))
                     {
                         <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
-                        
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
                         <li>@Html.ActionLink("Downloads", "Downloads", "File")</li>
                         
-                        <li>
-
-                            
-                                    <input type="hidden" name="q2" id="transcript2" placeholder="Speak" />
-                                    <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
-                               
-                            
-                        </li>
                     }
                     else
                     {
                         
                     }
                     
-
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li><img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" /></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -93,7 +85,7 @@
             recognition.continuous = false;
             recognition.interimResults = false;
 
-            recognition.lang = "en-US";
+            recognition.lang = "en-GB";
             recognition.start();
 
             recognition.onresult = function(e) {

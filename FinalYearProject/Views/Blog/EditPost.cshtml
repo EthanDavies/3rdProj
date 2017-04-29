@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+
+<div class="edit" style="text-align:center;font-size:80px;">
+    <label id="editmsg">Edit Post</label>
+</div>
+
 @using (Html.BeginForm("EditPost", "Blog", FormMethod.Post, new { role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -30,7 +36,7 @@
                     {
                         <td>Categories :</td>
                     }
-                    <td style="width:30px;"><a href="@Url.Action("AddCategoryToPost", "Blog", new { postid = Model.ID})" class="addremoveBtn" title="Add Video"><img src="@Url.Content("~/Content/images/thumb.png")" width="25" height="25" alt="add" /></a></td>
+                    <td style="width:30px;"><a href="@Url.Action("AddCategoryToPost", "Blog", new { postid = Model.ID})" class="addremoveBtn" title="Add Category"><img src="@Url.Content("~/Content/images/add.png")" width="25" height="25" alt="add" /></a></td>
                     <td class="editPostCategories">
                         @foreach (var cat in Model.PostCategories)
                         {
@@ -49,20 +55,14 @@
                     <td colspan="2"><a href="@Url.Action("AddCategoryToPost", "Blog", new { postid = Model.ID})" class="addremoveBtn" title="Add Category"><img src="@Url.Content("~/Content/images/add.png")" width="25" height="25" alt="add" /></a></td>
                 </tr>
             }
+            
             <tr>
-                <td>Meta :</td>
-                <td colspan="2">@Html.TextBoxFor(m => m.Meta, new { @class = "editPostMeta" })</td>
-            </tr>
-            <tr>
-                <td>UrlSeo :</td>
-                <td colspan="2">@Html.TextBoxFor(m => m.UrlSeo, new { @class = "editPostSeo", @readonly = "readonly" })</td>
-            </tr>
-            <tr>
-                <td>ShortDescription :</td>
+                <td>Description :</td>
                 <td colspan="2" class="editPostDesc">
                     @Html.TextAreaFor(m => m.ShortDescription, new { @id = "editor1", Value = Model.ShortDescription })
                     <script>
                         CKEDITOR.replace('editor1');
+                        CKEDITOR.config.autoParagraph = false;
                     </script>
                 </td>
             </tr>
@@ -72,12 +72,13 @@
                     @Html.TextAreaFor(m => m.Body, new { @id = "editor2", Value = Model.Body })
                     <script>
                         CKEDITOR.replace('editor2');
+                        CKEDITOR.config.autoParagraph = false;
                     </script>
                 </td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="3" class="editPostBody"><input class="comTextBtn" type="submit" value="&#x27a5;" /></td>
+                <td colspan="3" class="editPostBody"><input class="btnStyle" type="submit" value="Save Changes" /></td>
             </tr>
         </table>
     </div>

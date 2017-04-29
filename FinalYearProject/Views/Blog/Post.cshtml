@@ -7,71 +7,14 @@
     ViewBag.Description = Model.Meta;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-@section Scripts
-{
-    
-<script src="~/Scripts/view.js"></script>
-    <script src="~/ckeditor/ckeditor.js"></script>
 
 
-<script type="text/javascript">
-    $(document.getElementById('button-speak').addEventListener('click', function() {
-
-        var title = $('.title').text();
-        var body = $('.body').text();
-        speak(title);
-
-        speak(body);
-
-// say a message
-function speak(text, callback) {
-    var u = new SpeechSynthesisUtterance();
-    u.text = text;
-    u.lang = 'en-US';
-
-    u.onend = function () {
-        if (callback) {
-            callback();
-        }
-    };
-
-    u.onerror = function (e) {
-        if (callback) {
-            callback(e);
-        }
-    };
-
-    speechSynthesis.speak(u);
-}
-
-document.getElementById('button-stop').addEventListener('click', function () {
-    speechSynthesis.cancel();
-    
-});
-document.getElementById('button-pause').addEventListener('click', function () {
-    speechSynthesis.pause();
-});
-document.getElementById('button-resume').addEventListener('click', function () {
-    speechSynthesis.resume();
-});
-
-}));
-</script>
-}
 
 
 
 
 <div id="postScroll">
     <div class="postContainer">
-
-        <div class="buttons-wrapper">
-            <button type="button" id="button-speak" class="button">Speak</button>
-            <button type="button" id="button-stop" class="button">Stop</button>
-            <button type="button" id="button-pause" class="button">Pause</button>
-            <button type="button" id="button-resume" class="button">Resume</button>
-        </div>
 
        @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
        {
@@ -96,18 +39,72 @@ document.getElementById('button-resume').addEventListener('click', function () {
             }
             
         </div>
-        <div class="postTitle"><h2>@Model.Title</h2></div>
+        <div class="postTitle" style="font-size:40px;">
+            <label id="modtit">
+                @Model.Title
+            </label>
+        </div>
         <div class="addthis_sharing_toolbox"></div>
         
         @{
             BlogController blgCtrl = new BlogController();
         }
-        <div class="postBody">@Html.Raw(Model.Body)</div>
+        <div class="postBody" id="bodarea" >
+            <label id="modbod">@Html.Raw(Model.Body)</label>
+        
+        </div>
         <div class="body" style="display: none;">@Model.Body</div>
         <div class="title" style="display: none;">@Model.Title</div>
     </div>
+
+
 
       @{Html.RenderPartial("Comments");}
  
 </div>
 
+@section Scripts
+{
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script src="~/Scripts/view.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+
+
+    <script>
+
+        document.getElementById('bodarea').onclick = function () {
+            var header = document.getElementById('modtit').innerText;
+            var stop = ",";
+            var body = document.getElementById('modbod').innerText;
+            speak((header + stop) + body);
+        };
+
+    </script>
+
+    <script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-GB';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+    </script>
+
+
+
+
+
+}

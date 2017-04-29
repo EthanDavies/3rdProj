@@ -12,6 +12,7 @@
         <textarea name="commentBody" id="editComment">@Model.Body</textarea>
         <script>
             CKEDITOR.replace('editComment');
+            CKEDITOR.config.autoParagraph = false;
         </script>
         <div class="comTextSub">
             <input name="commentid" value="@Model.Id" type="hidden" />

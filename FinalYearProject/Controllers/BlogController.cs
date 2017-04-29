@@ -1116,7 +1116,7 @@ namespace FinalYearProject.Controllers
         /// </summary>
         /// <param name="postid">the id of the post</param>
         /// <returns>returns the post view model to the view</returns>
-        [Authorize(Roles = "Admin, Lecturer")]
+        [Authorize(Roles = "Admin, Lecturer, Student")]
         [HttpGet]
         public ActionResult AddCategoryToPost(string postid)
         {
@@ -1131,7 +1131,7 @@ namespace FinalYearProject.Controllers
         /// </summary>
         /// <param name="model">The post view model</param>
         /// <returns>redirect to the post with updated category</returns>
-        [Authorize(Roles = "Admin, Lecturer")]
+        [Authorize(Roles = "Admin, Lecturer, Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddCategoryToPost(PostViewModel model)
@@ -1175,8 +1175,8 @@ namespace FinalYearProject.Controllers
             {
                 Console.WriteLine(e);
             }
-            
-            return RedirectToAction("EditPost", new { slug = post.UrlSeo });
+
+            return RedirectToAction("Post", "Blog", new { slug = post.Title + post.Id });
         }
 
         /// <summary>
@@ -1200,7 +1200,7 @@ namespace FinalYearProject.Controllers
         /// <param name="postid">the post id</param>
         /// <param name="callfrompost">boolean flag</param>
         /// <returns>returns the relevant view</returns>
-        [Authorize(Roles = "Admin, Lecturer")]
+        [Authorize(Roles = "Admin, Lecturer, Student")]
         [HttpGet]
         public ActionResult AddNewCategory(string postid, bool callfrompost)
         {
@@ -1224,13 +1224,14 @@ namespace FinalYearProject.Controllers
         /// <param name="catUrlSeo">the url of the category</param>
         /// <param name="catDesc">tge description of the category</param>
         /// <returns></returns>
-        [Authorize(Roles = "Admin, Lecturer")]
+        [Authorize(Roles = "Admin, Lecturer, Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddNewCategory(string postid, string catName, string catUrlSeo, string catDesc)
         {
             if(postid != null)
             {
+                catUrlSeo = catName;
                 _announcementRepository.AddNewCategory(catName, catUrlSeo, catDesc);
                 return RedirectToAction("AddCategoryToPost", new { postid = postid });
             }
@@ -1308,7 +1309,7 @@ namespace FinalYearProject.Controllers
         /// This method is responsible for dealing with the adding of a new post
         /// </summary>
         /// <returns>returns the post viel model to the view</returns>
-        [Authorize(Roles = "Admin, Lecturer")]
+        [Authorize(Roles = "Admin, Lecturer, Student")]
         [HttpGet]
         public ActionResult AddNewPost()
         {
@@ -1344,7 +1345,7 @@ namespace FinalYearProject.Controllers
         /// </summary>
         /// <param name="model">The post view model</param>
         /// <returns></returns>
-        [Authorize(Roles = "Admin, Lecturer")]
+        [Authorize(Roles = "Admin, Lecturer, Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -1363,8 +1364,9 @@ namespace FinalYearProject.Controllers
                 UrlSeo = model.Title + model.ID
             };
             _announcementRepository.AddNewPost(post);
+            AddCategoryToPost(post.Id);
 
-            return RedirectToAction("Post", "Blog", new { slug = model.Title + model.ID });
+            return RedirectToAction("AddCategoryToPost", "Blog", new { postid = model.ID });
         }
 
     }

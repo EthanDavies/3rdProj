@@ -58,6 +58,7 @@
                                             <textarea name="replyBody" id="@crDetails[13]"></textarea>
                                             <script>
                                                 CKEDITOR.replace('@crDetails[13]');
+                                                CKEDITOR.config.autoParagraph = false;
                                             </script>
                                             <div class="comTextSub">
                                                 <input type="hidden" value="@childReply.Id" name="preplyid" id="preplyid" />

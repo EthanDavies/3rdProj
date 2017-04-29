@@ -69,6 +69,7 @@
 
 
 
+
 @section Scripts {
 <link href="~/Content/sweetalert.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -116,7 +117,7 @@
             recognition.continuous = false;
             recognition.interimResults = false;
 
-            recognition.lang = "en-US";
+            recognition.lang = "en-GB";
             recognition.start();
 
 
@@ -154,6 +155,14 @@
 
         }
     }
+</script>
+
+<script>
+        $(document).ready(function () {
+            $('html, body').animate({
+                scrollTop: $('.todoCreateFrom').offset().top
+            }, 'slow');
+        });
 </script>
     @Scripts.Render("~/bundles/jqueryval")
 }
