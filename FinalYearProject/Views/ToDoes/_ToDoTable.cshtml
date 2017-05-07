@@ -4,26 +4,21 @@
 
 <div class="tableArea">
     <div id="progressBar">
-
         <div class="progress">
             <div class="progress-bar" role="progressbar"
                  style="width:@(Html.AttributeEncode(ViewBag.Percent))%">
             </div>
         </div>
-
     </div>
-
     <div id="table" style="overflow-y: scroll; height:400px;">
-        <table class="table" >
-
-
+        <table class="table">
             @foreach (var item in Model)
             {
                 <tr>
                     <td>
                         <div class="desc" style="display: none;">@item.Description></div>
                         @if (!item.IsDone)
-                {
+                        {
                             @Html.DisplayFor(modelItem => item.Description)
                         }
                         else
@@ -35,13 +30,10 @@
                         @Html.CheckBoxFor(modelItem => item.IsDone, new { id = item.Id, @class = "ActiveCheck" })
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-
                     </td>
                 </tr>
             }
-
         </table>
     </div>
 </div>

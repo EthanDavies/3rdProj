@@ -1,0 +1,245 @@
+﻿@model FinalYearProject.Models.PostViewModel
+
+@{
+    ViewBag.Title = "AddNewCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+@section Scripts {
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+    <script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-GB';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+    </script>
+
+    <script>
+        document.getElementById('catHeadDescMsg').onclick = function () {
+            var header = document.getElementById('catHeadMsg').innerText;
+            var stop = ".";
+            var body = document.getElementById('catHeadDescMsg').innerText;
+            speak((header + stop) + body);
+        };
+
+    </script>
+
+    <script>
+    function startDictationDesc() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-GB";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //window.location.href = 'http://localhost:59658/Forum/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    document.getElementById('descCat').value = document.getElementById('transcript').value;
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+    </script>
+
+    <script>
+    function startDictationTitle() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-GB";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //window.location.href = 'http://localhost:59658/Forum/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    document.getElementById('catTitle').value = document.getElementById('transcript').value;
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+    </script>
+
+
+    <script>
+       function submitaftersetdata() {
+           this.updateElement();
+       }
+    </script>
+
+
+<script type="text/javascript">
+        $(function () {
+            $('#catAddbtn').click(function () {
+                swal({
+                    type: "success",
+                    title: "Category Created",
+                    text: "Your new category has been created",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+</script>
+
+}
+
+<div class="catHead">
+    <label id="catHeadMsg">
+        Create New Category
+    </label>
+</div>
+
+<div class="hoverDesc">
+    <label id="catHeadDescMsg">
+        Here you can create a new category that you and other users can add to forum posts! Fill out the infomation for you new category below.
+    </label>
+</div>
+
+
+<form id="labnol1">
+    <div class="speech">
+        <input type="hidden" name="q2" id="transcript" placeholder="Speak" />
+    </div>
+</form>
+
+
+
+@using (Html.BeginForm("AddNewCategory", "Forum", FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="catContainer">
+        <table class="newCatCont">
+            <tr>
+                <td>Name :</td>
+                <td><input type="text" name="catName" id="catTitle" /></td>
+                <td>
+                    <div class="micItem">
+                        <img id="desc" onclick="startDictationTitle()" src="~/Content/images/mic.gif" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="hidden" name="catUrlSeo" value=catTitle/></td>
+            </tr>
+            <tr>
+                <td>Description :</td>
+                <td>
+                    <input type="text" name="catDesc" id="descCat" />
+                    
+                </td>
+                <td>
+                    <div class="micItem">
+                        <img id="desc" onclick="startDictationDesc()" src="~/Content/images/mic.gif" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @if (Model != null)
+                {
+                        <input type="hidden" value="@Model.ID" name="postid" />
+                    }
+                    <input type="submit" id="catAddbtn" value="Create" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <form id="labnol1">
+        <div class="speech">
+            <input type="hidden" name="q2" id="transcript" placeholder="Speak" />
+        </div>
+    </form>
+}
+
+@Scripts.Render("~/bundles/jqueryval")

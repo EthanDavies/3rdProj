@@ -1,0 +1,19 @@
+﻿@model List<FinalYearProject.Models.SeenUsers>
+
+@{
+    ViewBag.Title = "Announcement Not Seen By";
+}
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<h2>@ViewBag.Title.</h2>
+
+<p>Here are the users who have not viewed the announcement.</p>
+
+<ul>
+    @foreach (var item in Model.Distinct().ToList())
+    {
+
+       <li>@item.Username</li> 
+    }
+</ul>
+
+

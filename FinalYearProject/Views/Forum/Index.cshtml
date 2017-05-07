@@ -1,0 +1,241 @@
+﻿@model PagedList.IPagedList<FinalYearProject.Models.ForumViewModel>
+@using FinalYearProject.Controllers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ForumController.checkCatList;
+}
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+
+<div class="forum">
+    <label id="forumMessage">Forum</label>
+</div>
+
+<div class="forumDesc">
+    <label id="forumDescMessage">Welcome to the forum, here you can create and view posts. You can also comment on posts and filter posts by category, or simply search for them!</label>
+</div>
+
+<hr />
+
+
+<div class="searching">
+    <table id="containertbl">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <label id="addPost">
+                                Add New Post
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input onclick="location.href='@Url.Action("AddNewPost", "Forum")'" type="button" class="btn btn-primary" id="addbtn" value="Add Post" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    
+
+</div>
+
+<hr />
+
+<div id="blogContainer" class="blogContainer">
+
+    <div class="searchPost">
+        <div class="search">
+            <label id="forumSearch">Search</label>
+        </div>
+
+        @using (Html.BeginForm("Index", "Forum", FormMethod.Get, new { @class = "indexSearchForm" }))
+            {
+                if (ViewBag.CurrentSearchCategory != null)
+                {
+                    foreach (var item in ViewBag.CurrentSearchCategory)
+                    {
+                    <input type="hidden" name="searchCategory" value="@item" />
+                }
+            }
+
+            <input type="hidden" name="sortOrder" value="@ViewBag.CurrentSort" />
+
+
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="search" id="searchName" name="searchString" value="@ViewBag.CurrentSearchString" placeholder="Search..." />
+                            </td>
+                            <td>
+                                <div class="searchingbtn">
+                                    <input type="submit" class="btn btn-primary" id="searchbtn" value="Search" />
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="searchMic">
+                                    <img id ="micbtn" onclick="startDictationSearch()" src="Content/images/mic.gif" />
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+        }
+    </div>
+
+    <div class="mainblogview">
+        @{
+            Html.RenderPartial("Posts");
+         }
+    </div>
+    <div class="mainblogbar">
+        
+
+    <div class="blogControlPanel">
+        
+        
+        @using (Html.BeginForm("Index", "Forum", FormMethod.Get, new { @class = "indexFilterForm" }))
+            {
+ 
+            <table class="blogCtrlTable">
+                
+                <tr>
+                    <td style="width:100%;">
+                        @foreach (var cat in categories)
+                        {
+                            <div style="width:45%;float:left;">
+                                @if (cat.Checked)
+                                {
+                                    <input type="checkbox" name="searchCategory" value="@cat.Category.Name" checked="checked" /> @cat.Category.Name
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="searchCategory" value="@cat.Category.Name" /> @cat.Category.Name
+                                }
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                </tr>
+                <tr>
+                    <td style="width:100%;">
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" name="page" value="1" />
+                        <input type="hidden" name="sortOrder" value="@ViewBag.CurrentSort" />
+                        <input type="hidden" name="searchString" value="@ViewBag.CurrentSearchString" />
+                        <input type="submit" class="filterStyle" value="Filter" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+        </div>
+</div>
+
+<form id="labnol1">
+    <div class="speech">
+        <input type="hidden" name="q2" id="transcript" placeholder="Speak" />
+    </div>
+</form>
+
+@section Scripts {
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('html, body').animate({
+                scrollTop: $('#blogContainer').offset().top
+            }, 'slow');
+        });
+    </script>
+<script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-GB';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+</script>
+<script>
+    document.getElementById('forumDescMessage').onclick = function () {
+            var header = document.getElementById('forumMessage').innerText;
+            var stop = ",";
+            var body = document.getElementById('forumDescMessage').innerText;
+            speak((header + stop) + body);
+        };
+</script>
+
+<script>
+    function startDictationSearch() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-GB";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //window.location.href = 'http://localhost:59658/Blog/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    document.getElementById('searchName').value = document.getElementById('transcript').value;
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+</script>
+    }

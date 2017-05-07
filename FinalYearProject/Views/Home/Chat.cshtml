@@ -37,7 +37,7 @@
                     <input type="button" class="btn btn-primary" id="sendmessage" value="Send" />
                 </td>
                 <td>
-                    <img onclick="startDictationChat()" src="//i.imgur.com/cHidSVu.gif" />
+                    <img onclick="startDictationChat()" src="~/Content/images/mic.gif" />
                 </td>
             </tr>
         </table>
@@ -72,31 +72,26 @@
     <script src="~/Content/sweetalert.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
+
     <script>
         $(function () {
-
             window.onbeforeunload = function (e) {
                 chat.server.send($('#displayname').val(), "has left the chat room");
             }
-
             var chat = $.connection.chatHub;
             chat.client.addNewMessageToPage = function (name, message) {
                 var time = "(" + new Date().toLocaleString() + ")" + " ";
-
-                $('#discussion').prepend('<ul><li>' + time + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase"></strong>' + htmlEncode(name) + '  ' + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase">:</strong>'
+                $('#discussion').prepend('<ul><li>' + time +
+                    '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase"></strong>'
+                    + htmlEncode(name) + '  ' + '<strong style="color:black;font-style:normal;font-size:medium;text-transform:lowercase">:</strong>'
                      + '<a id="message-speak">' + " " + message + '</a>' + '</li></ul>');
-                
                 function speakMessage() {
                     speak(htmlEncode(name) + "said: " + (message));
                 };
-
                 document.getElementById('message-speak').onclick = function () {
                     speakMessage();
                 };
-
             };
-
-            
             swal({
                 title: "Username",
                 text: "Would you like to use a nickname or your username for the chat?",
@@ -128,7 +123,6 @@
                             swal.showInputError("You need to enter a nickname!");
                             return false
                         }
-
                         swal("Nice!", "Your username: " + inputValue, "success");
                         $('#displayname').val(inputValue);
                         chat.server.send($('#displayname').val(), "I have joined the chat room under a nickname");
@@ -139,9 +133,6 @@
                     chat.server.send($('#displayname').val(), "I Have joined the chat room");
                 }
             });
-
-
-
             $('#message').focus();
             $.connection.hub.start().done(function () {
                 chat.server.send()
@@ -151,14 +142,12 @@
                 });
             });
         });
-
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
-
-
     </script>
+
 <script type="text/javascript">
 
 // say a message

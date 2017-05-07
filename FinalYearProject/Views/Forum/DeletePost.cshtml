@@ -1,0 +1,45 @@
+﻿@model FinalYearProject.Models.PostViewModel
+
+@{
+    ViewBag.Title = "Delete Announcement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<h1>@ViewBag.Title</h1>
+
+@using (Html.BeginForm("DeletePost", "Forum", FormMethod.Post, new { @role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="delacccont">
+        <div class="delaccgrp">
+            <div class="delacclbl" style="text-align:left;">Are you sure?</div>
+        </div>
+        <div class="delaccgrp">
+            <input type="hidden" value="@Model.ID" name="postId" />
+            <input id="del" type="submit" value="Delete Post" class="btn btn-default delaccbtn" />
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#del').click(function () {
+                swal({
+                    type: "success",
+                    title: "Deleted",
+                    text: "The post has been deleted",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+    </script>
+
+}

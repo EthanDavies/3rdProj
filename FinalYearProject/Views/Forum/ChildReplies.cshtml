@@ -1,0 +1,123 @@
+﻿@model IList<FinalYearProject.Models.CommentViewModel>
+@using FinalYearProject.Controllers
+@using Microsoft.AspNet.Identity
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+@foreach (var childReply in Model)
+{
+    if (childReply != null)
+    {
+        ForumController blgCtrl = new ForumController();
+        var crDetails = blgCtrl.ReplyDetails(childReply.Id);
+
+
+        <div class="childReply" id="@crDetails[4]">
+            <div class="childReplyCont" id="@crDetails[5]">
+                <table class="commentControl" id="@crDetails[15]">
+                    <tr>
+                        <td><a class="commentExpCtrl" id="@crDetails[8]" style="font-size:10px;">&mdash;</a></td>
+                        
+                    </tr>
+                </table>
+                <div class="userImage"><img src="@crDetails[1]" height="50" width="50" /></div>
+                <div class="commentUserName"><strong><label id="chilOP">@crDetails[0]</label></strong>&nbsp;&nbsp;<span class="cmntTime">-- @crDetails[2]</span></div>
+                <div class="commentDate">@crDetails[3]</div>
+
+                <div class="commentExp" id="@crDetails[7]">
+                    <div class="commentBody" id="chilBod">
+                        
+                        <label id="childComBod">@Html.Raw(childReply.Body)</label>
+
+                        <script>
+
+                            document.getElementById('chilBod').onclick = function () {
+                                        var header = document.getElementById('chilOP').innerText;
+                                            var stop = ", said,";
+                                            var body = document.getElementById('childComBod').innerText;
+                                            speak((header + stop) + body);
+                                        };
+
+                        </script>
+
+                        <script type="text/javascript">
+
+                                // say a message
+                                    function speak(text, callback) {
+                                        var u = new SpeechSynthesisUtterance();
+                                        u.text = text;
+                                        u.lang = 'en-GB';
+                                        u.onend = function () {
+                                            if (callback) {
+                                                callback();
+                                            }
+                                        };
+
+                                        u.onerror = function (e) {
+                                            if (callback) {
+                                                callback(e);
+                                            }
+                                        };
+                                        speechSynthesis.speak(u);
+                                    };
+                        </script>
+
+                    </div>
+                    @if (!blgCtrl.ReplyDeleteCheck(childReply.Id))
+                    {
+                        <div class="replySubMenu">
+                            <a style="cursor:pointer;" class="comReplyParent" id="@crDetails[14]">Reply</a>
+                            <div class="shareParent" id="@crDetails[10]">
+                                <a style="cursor:pointer;"></a>
+                                <div>
+                                </div>
+                            </div>
+                            @if (childReply.UserName == User.Identity.GetUserName())
+                            {
+                                <table class="commentMenu" id="@crDetails[16]">
+                                    <tr>
+                                        <td><a href="@Url.Action("EditReply", "Forum", new { replyid = childReply.Id })" title="Edit"><img src="@Url.Content("~/Content/images/edit.png")" alt="edit" /></a></td>
+                                        <td><a href="@Url.Action("DeleteReply", "Forum", new { replyid = childReply.Id })" title="Delete"><img src="@Url.Content("~/Content/images/delete.png")" alt="delete" /></a></td>
+                                    </tr>
+                                </table>
+                            }
+                        </div>
+                        if (Request.IsAuthenticated)
+                        {
+                            var imgUrl = Url.Content("~/Content/images/profile/" + User.Identity.GetUserName() + ".png") + "?time=" + DateTime.Now.ToString();
+                            <table class="newComment collapseComment">
+                                <tr>
+                                    <td style="width:50px;vertical-align: top;"><div class="comImg"><img src="@imgUrl" height="50" width="50" /></div></td>
+
+                                    <td style="vertical-align:middle; min-height:40px;" class="comText" id="@crDetails[12]">
+                                        @using (Html.BeginForm("NewChildReply", "Forum", FormMethod.Post, new { @class = "comTextdivParent", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <textarea name="replyBody" id="@crDetails[13]"></textarea>
+                                            <script>
+                                                CKEDITOR.replace('@crDetails[13]');
+                                                CKEDITOR.config.autoParagraph = false;
+                                            </script>
+                                            <div class="comTextSub">
+                                                <input type="hidden" value="@childReply.Id" name="preplyid" id="preplyid" />
+                                                <input type="hidden" value="@User.Identity.GetUserName()" name="comUserName" id="comUserName" />
+                                                <input class="comTextBtn" type="submit" value="&#x27a5;" />
+                                            </div>
+                                        }
+
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    }
+
+                </div>
+            </div>
+            <div class="commentreplies" id="@crDetails[6]">
+                @if (childReply.ChildReplies != null)
+                {
+                    if (childReply.ChildReplies.Count > 0)
+                    { Html.RenderPartial("ChildReplies", childReply.ChildReplies); }
+                }
+            </div>
+        </div>
+    }
+}

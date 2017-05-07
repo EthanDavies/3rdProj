@@ -1,0 +1,106 @@
+﻿@model FinalYearProject.Models.PostViewModel
+@using FinalYearProject.Controllers
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = Model.Title;
+    
+    ViewBag.Description = Model.Meta;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+
+<div id="postScroll">
+    <div class="postContainer">
+
+       @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
+       {
+        <a href="@Url.Action("EditPost", "Forum", new { slug = Model.UrlSeo })" title="Edit"><img src="@Url.Content("~/Content/images/edit.png")" width="25" height="25" alt="edit" /></a>
+        <a href="@Url.Action("DeletePost", "Forum", new { postid = Model.ID })" title="Delete"><img src="@Url.Content("~/Content/images/delete.png")" width="25" height="25" alt="delete" /></a>
+        <a href="@Url.Action("PostSeen", "Forum", new { postid = Model.ID })" title="Seen"><img src="@Url.Content("~/Content/images/eye.png")" width="25" height="25" alt="seen" /></a>
+            <div class="postMenu">
+                <div class="postMenuSub">
+                        
+                </div>
+            </div>
+       }
+
+        <div class="postHeader">
+            @if (Model.ID != Model.FirstPostId)
+            {
+                @Html.ActionLink("<< Previous", "Post", "Forum", new { slug = Model.PreviousPostSlug, sortorder = ViewBag.CurrentSort }, new { style = "float:left;" })
+            }
+            @if (Model.ID != Model.LastPostId)
+            {
+                @Html.ActionLink("Next >>", "Post", "Forum", new { slug = Model.NextPostSlug, sortorder = ViewBag.CurrentSort }, new { style = "float:right;" })
+            }
+            
+        </div>
+        <div class="postTitle" style="font-size:40px;">
+            <label id="modtit">
+                @Model.Title
+            </label>
+        </div>
+        <div class="addthis_sharing_toolbox"></div>
+        
+        @{
+            ForumController blgCtrl = new ForumController();
+        }
+        <div class="postBody" id="bodarea" >
+            <label id="modbod">@Html.Raw(Model.Body)</label>
+        
+        </div>
+        <div class="body" style="display: none;">@Model.Body</div>
+        <div class="title" style="display: none;">@Model.Title</div>
+    </div>
+      @{Html.RenderPartial("Comments");}
+</div>
+
+@section Scripts
+{
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script src="~/Scripts/view.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+
+
+    <script>
+
+        document.getElementById('bodarea').onclick = function () {
+            var header = document.getElementById('modtit').innerText;
+            var stop = ",";
+            var body = document.getElementById('modbod').innerText;
+            speak((header + stop) + body);
+        };
+
+    </script>
+
+    <script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-GB';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+    </script>
+
+
+
+
+
+}

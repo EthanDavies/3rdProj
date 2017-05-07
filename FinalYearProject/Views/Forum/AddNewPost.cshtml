@@ -1,0 +1,303 @@
+﻿@model FinalYearProject.Models.PostViewModel
+
+@{
+    ViewBag.Title = "Add Announcement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+
+<div class="addTitle">
+    <label id="addMsg">Add New Post</label>
+</div>
+
+
+<div class="hoverDesc">
+    <label id="addDescMsg">Here you can add a new post to the forum. A post consists of a Title, Description and the body of the post. You can make use of speech recognition to help you create a forum post!</label>
+</div>
+
+
+
+
+
+@using (Html.BeginForm("AddNewPost", "Forum", FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="editPostContainer">
+        <table>
+            
+               <tr>
+                <td>Id :</td>
+                <td colspan="2" class="editPostId">@Html.TextBoxFor(m => m.ID, new { @class = "editPostIdInp", @readonly = "readonly" })</td>
+            </tr> 
+            
+            <tr>
+                <td style="font-size:20px;">Title: </td>
+                <td colspan="2" class="editPostTitle">
+                    @Html.TextBoxFor(m => m.Title, new { @id = "bxc" })
+
+                @Html.ValidationMessageFor(m => m.Title)
+
+            </td>
+                <td>
+                    <div class="micItem">
+                        <img id="desc" onclick="startDictationTitle()" src="~/Content/images/mic.gif" />
+                    </div>
+                </td>
+        </tr>
+        <!-- <tr>
+        <td>Meta :</td>
+        <td colspan="2">@Html.TextBoxFor(m => m.Meta, new { @class = "editPostMeta" })</td>
+    </tr> -->
+        <!--
+    <tr>
+        <td>UrlSeo :</td>
+        <td colspan="2">@Html.TextBoxFor(m => m.UrlSeo, new { @class = "editPostSeo", @readonly = "readonly" })
+        </td>
+    </tr> -->
+        <tr>
+            <td style="font-size:20px;">Description: </td>
+            <td colspan="2" class="editPostDesc">
+                @Html.TextAreaFor(m => m.ShortDescription, new { @id = "editor1", Value = @Model.ShortDescription })
+                <script>
+                    CKEDITOR.replace('editor1');
+                    CKEDITOR.config.autoParagraph = false;
+                </script>
+            </td>
+            <td>
+                <div class="micItem">
+                    <img id="desc" onclick="startDictationDesc()" src="~/Content/images/mic.gif" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size:20px;">Body: </td>
+            <td colspan="2" class="editPostBody">
+                @Html.TextAreaFor(m => m.Body, new { @id = "editor2", Value = @Model.Body })
+                <script>
+                    CKEDITOR.replace('editor2');
+                    CKEDITOR.config.autoParagraph = false;
+                </script>
+            </td>
+            <td>
+                <div class="micItem">
+                    <img id="body" onclick="startDictationBody()" src="~/Content/images/mic.gif" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="3" class="editPostBody">
+                
+                <input class="btnStyle" type="submit" value="Save Changes" id="addPst" />
+
+            </td>
+        </tr>
+    </table>
+    </div>
+
+    <form id="labnol1">
+        <div class="speech">
+            <input type="hidden" name="q2" id="transcript" placeholder="Speak" />
+        </div>
+    </form>
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+
+@section scripts {
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
+
+<script>
+    function startDictationDesc() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-GB";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //window.location.href = 'http://localhost:59658/Forum/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    CKEDITOR.instances['editor1'].setData(document.getElementById('transcript').value, submitaftersetdata);
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+</script>
+
+<script>
+    function startDictationBody() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-GB";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //window.location.href = 'http://localhost:59658/Forum/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    CKEDITOR.instances['editor2'].setData(document.getElementById('transcript').value, submitaftersetdata);
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+</script>
+
+<script>
+    function startDictationTitle() {
+
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+            var recognition = new webkitSpeechRecognition();
+
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.lang = "en-GB";
+            recognition.start();
+
+
+
+            recognition.onresult = function(e) {
+                document.getElementById('transcript').value
+                                         = e.results[0][0].transcript;
+                recognition.stop();
+
+                if (document.getElementById('transcript').value == null) {
+                    swal({
+                        type: "error",
+                        title: "We didn't catch that!",
+                        text: "Try again to dictate your speech",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    //window.location.href = 'http://localhost:59658/Forum/Index';
+                } else {
+                    swal({
+                        type: "success",
+                        title: "Loud and Clear!",
+                        text: "You Said: " + document.getElementById('transcript').value,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    document.getElementById('bxc').value = document.getElementById('transcript').value;
+                }
+
+            };
+
+            recognition.onerror = function(e) {
+                recognition.stop();
+            }
+
+        }
+    }
+</script>
+
+   <script>
+       function submitaftersetdata() {
+           this.updateElement();
+       }
+    </script>
+
+
+    <script>
+        document.getElementById('addDescMsg').onclick = function () {
+            var header = document.getElementById('addMsg').innerText;
+            var stop = ".";
+            var body = document.getElementById('addDescMsg').innerText;
+            speak((header + stop) + body);
+        };
+    </script>
+
+
+<script type="text/javascript">
+        $(function () {
+            $('#addPst').click(function () {
+                swal({
+                    type: "success",
+                    title: "Post Added",
+                    text: "The post has been added",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+</script>
+
+
+
+
+    }

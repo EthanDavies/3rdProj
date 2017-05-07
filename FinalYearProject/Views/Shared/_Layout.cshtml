@@ -30,7 +30,7 @@
                     
                     @if (User.IsInRole("Admin") || User.IsInRole("Lecturer"))
                     {
-                        <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
+                        <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("Material", "Index", "File")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
@@ -38,7 +38,7 @@
                     }
                     else if (User.IsInRole("Student"))
                     {
-                        <li>@Html.ActionLink("Forum", "Index", "Blog")</li>
+                        <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
                         <li>@Html.ActionLink("Chat Room", "Chat", "Home")</li>
                         <li>@Html.ActionLink("My ToDo's", "Index", "ToDoes")</li>
                         <li>@Html.ActionLink("Downloads", "Downloads", "File")</li>
@@ -51,7 +51,7 @@
                     
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li><img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" /></li>
+                    <li><img onclick="startDictationApplication()" src="~/Content/images/mic.gif" /></li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -98,16 +98,16 @@
                         type: "success",
                         title: "Loud and Clear!",
                         text: "Taking you to the forum!",
-                        timer: 2000,
+                        
                         showConfirmButton: false
                     });
-                    window.location.href = 'http://localhost:59658/Blog/Index';
+                    window.location.href = 'http://localhost:59658/Forum/Index';
                 } else if (document.getElementById('transcript3').value == "to do") {
                     swal({
                         type: "success",
                         title: "Loud and Clear!",
                         text: "Taking you to you ToDo list!",
-                        timer: 2000,
+                        
                         showConfirmButton: false
                     });
                     window.location.href = 'http://localhost:59658/ToDoes/Index';

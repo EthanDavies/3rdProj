@@ -30,6 +30,7 @@
 <hr />
 
 <div class="todoCreateFrom">
+    
     @using (Ajax.BeginForm("AJAXCreate", "ToDoes", new AjaxOptions
     {
         InsertionMode = InsertionMode.Replace,
@@ -38,12 +39,10 @@
     }))
 
     {
-        
             @Html.AntiForgeryToken()
             <div class="enterItems">
                 <table>
                     <tr>
-                        
                         <td>
                             <div class="enterItem">
                                 @Html.TextBoxFor(model => model.Description, new { @id = "bxc" })
@@ -52,15 +51,13 @@
                         </td>
                         <td>
                             <div class="micItem">
-                                <img onclick="startDictationToDo()" src="//i.imgur.com/cHidSVu.gif" />
+                                <img onclick="startDictationToDo()" src="~/Content/images/mic.gif" />
                             </div>
                         </td>
                     </tr>
                 </table>   
             </div>
-        
     }
-
 </div>
 
 <hr />
@@ -76,9 +73,8 @@
     <script src="~/Custom_Scripts/BuildTable.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Content/sweetalert.min.js"></script>
-<script type="text/javascript">
 
-// say a message
+<script type="text/javascript">
     function speak(text, callback) {
         var u = new SpeechSynthesisUtterance();
         u.text = text;
@@ -97,6 +93,7 @@
         speechSynthesis.speak(u);
     };
 </script>
+
     <script>
         document.getElementById('toDoDescMessage').onclick = function () {
             var header = document.getElementById('toDoMessage').innerText;
@@ -106,27 +103,20 @@
             speak((header + stop) + body);
         };
     </script>
+
+
 <script>
-
     function startDictationToDo() {
-
         if (window.hasOwnProperty('webkitSpeechRecognition')) {
-
             var recognition = new webkitSpeechRecognition();
-
             recognition.continuous = false;
             recognition.interimResults = false;
-
             recognition.lang = "en-GB";
             recognition.start();
-
-
-
             recognition.onresult = function(e) {
                 document.getElementById('transcript').value
                                          = e.results[0][0].transcript;
                 recognition.stop();
-
                 if (document.getElementById('transcript').value == null) {
                     swal({
                         type: "error",
@@ -135,7 +125,6 @@
                         timer: 2000,
                         showConfirmButton: false
                     });
-                    window.location.href = 'http://localhost:59658/Blog/Index';
                 } else {
                     swal({
                         type: "success",
@@ -146,9 +135,7 @@
                     });
                     document.getElementById('bxc').value = document.getElementById('transcript').value;
                 }
-
-            };
-
+            }
             recognition.onerror = function(e) {
                 recognition.stop();
             }
@@ -164,5 +151,7 @@
             }, 'slow');
         });
 </script>
+
+
     @Scripts.Render("~/bundles/jqueryval")
 }

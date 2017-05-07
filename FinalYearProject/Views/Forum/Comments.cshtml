@@ -1,0 +1,344 @@
+﻿@model PostViewModel
+@using FinalYearProject.Models
+@using FinalYearProject.Controllers
+@using Microsoft.AspNet.Identity
+@using System.Web
+
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<div class="bottomContainer">
+    <div class="commentContainer">
+        <div class="commHeader">
+            <table class="commentSort">
+                <tr>                    
+                    <td>@Html.ActionLink("Date", "Post", "Forum", new { slug = Model.UrlSeo, sortOrder = ViewBag.DateSortParm }, new { @id = ViewBag.DateSortLink })</td>
+                </tr>
+            </table>
+            
+
+            @if (Model.Comments.Count() == 1)
+            {<a>@Model.Comments.Count() Comment </a>}
+            else if (Model.Comments.Count() > 1)
+            {<a>@Model.Comments.Count() Comments </a>}
+        </div>
+        <hr />
+        @if (Request.IsAuthenticated)
+        {
+            ForumController blgCtrl = new ForumController();
+            var ncmDetails = blgCtrl.NewCommentDetails(User.Identity.GetUserName());
+            <table class="newComment" style="margin:auto;">
+                <tr>
+                    <td ><div class="comImg"></div></td>
+
+                    <td  id="@ncmDetails[0]">
+                        @using (Html.BeginForm("NewComment", "Forum", FormMethod.Post, new { @class = "comTextdivParent", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <table>
+                                <tr>
+                                    <td>
+                                        <textarea name="commentBody" id="@ncmDetails[1]" class="txtCom"></textarea>
+                                        <script>
+                                            CKEDITOR.replace('@ncmDetails[1]');
+                                            CKEDITOR.config.autoParagraph = false;
+                                            $(function () {
+                                                $('input[type="submit"]').click(function () {
+                                                    CKEDITOR.instances.ncmDetails[1].updateElement();
+                                                });
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="btnStyle" type="submit" value="Comment" style="font-size:20px;" />
+                                    </td>
+                                    <td>
+                                        <div class="micItem">
+                                            <img onclick="startDictationComment()" src="~/Content/images/mic.gif" />
+                                            <script>
+                                                    function startDictationComment() {
+
+                                                        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+                                                            var recognition = new webkitSpeechRecognition();
+
+                                                            recognition.continuous = false;
+                                                            recognition.interimResults = false;
+
+                                                            recognition.lang = "en-GB";
+                                                            recognition.start();
+
+
+
+                                                            recognition.onresult = function(e) {
+                                                                document.getElementById('transcript').value
+                                                                                         = e.results[0][0].transcript;
+                                                                recognition.stop();
+
+                                                                if (document.getElementById('transcript').value == null) {
+                                                                    swal({
+                                                                        type: "error",
+                                                                        title: "We didn't catch that!",
+                                                                        text: "Try again to dictate your speech",
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false
+                                                                    });
+                                                                    //window.location.href = 'http://localhost:59658/Blog/Index';
+                                                                } else {
+                                                                    swal({
+                                                                        type: "success",
+                                                                        title: "Loud and Clear!",
+                                                                        text: "You Said: " + document.getElementById('transcript').value,
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false
+                                                                    });
+                                                                    CKEDITOR.instances['@ncmDetails[1]'].setData(document.getElementById('transcript').value, submitaftersetdata);
+                                                                }
+
+                                                            };
+
+                                                            recognition.onerror = function(e) {
+                                                                recognition.stop();
+                                                            }
+
+                                                        }
+                                                    }
+                                            </script>
+
+                                            <script>
+                                                   function submitaftersetdata() {
+                                                       this.updateElement();
+                                                   }
+                                            </script>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <div class="comTextSub">
+                                <input value="@Model.UrlSeo" name="slug" type="hidden" />
+                                <input value="@Model.ID" name="postid" type="hidden" />
+                                <input value="@User.Identity.GetUserName()" name="comUserName" type="hidden" />
+                            </div>
+                        }
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        }
+
+        @foreach (var comment in Model.Comments)
+        {
+            ForumController blgCtrl = new ForumController();
+            var cmDetails = blgCtrl.CommentDetails(comment);
+
+
+            <div class="userComment" id="@cmDetails[4]">
+                <div class="maincomment" id="@cmDetails[5]">
+                    <table class="commentControl" id="@cmDetails[15]">
+                        <tr>
+                            <td><a class="commentExpCtrl" id="@cmDetails[8]" style="font-size:10px;">&mdash;</a></td>
+                            <td>|</td>
+                            
+                        </tr>
+                    </table>
+                    <div class="userImage"><img src="@cmDetails[1]" height="50" width="50" /></div>
+                    <div class="commentUserName"><strong><label id="comOP">@cmDetails[0]</label></strong>&nbsp;&nbsp;<span class="cmntTime">-- @cmDetails[2]</span></div>
+                    <div class="commentDate">@cmDetails[3]</div>
+
+                    <div class="commentExp" id="@cmDetails[7]">
+                        <div class="commentBody" id="bod"><label id="combod">@Html.Raw(comment.Body)</label>
+                            <script>
+
+                                document.getElementById('bod').onclick = function () {
+                                    var header = document.getElementById('comOP').innerText;
+                                            var stop = ", said,";
+                                            var body = document.getElementById('combod').innerText;
+                                            speak((header + stop) + body);
+                                        };
+
+                            </script>
+
+                            <script type="text/javascript">
+
+                                // say a message
+                                    function speak(text, callback) {
+                                        var u = new SpeechSynthesisUtterance();
+                                        u.text = text;
+                                        u.lang = 'en-GB';
+                                        u.onend = function () {
+                                            if (callback) {
+                                                callback();
+                                            }
+                                        };
+
+                                        u.onerror = function (e) {
+                                            if (callback) {
+                                                callback(e);
+                                            }
+                                        };
+                                        speechSynthesis.speak(u);
+                                    };
+                            </script>
+
+                        </div>
+                        @if (!blgCtrl.CommentDeleteCheck(comment.Id))
+                        {
+                            <div class="replySubMenu">
+                                
+                                <a style="cursor:pointer;" class="comReplyParent" id="@cmDetails[14]">Reply</a>
+                                
+
+                                @if (comment.UserName == User.Identity.GetUserName())
+                                {
+                                    <table class="commentMenu" id="@cmDetails[16]">
+                                        <tr>
+                                            <td><a href="@Url.Action("EditComment", "Forum", new { commentid = comment.Id })" title="Edit"><img src="@Url.Content("~/Content/images/edit.png")" alt="edit" /></a></td>
+                                            <td><a href="@Url.Action("DeleteComment", "Forum", new { commentid = comment.Id })" title="Delete"><img src="@Url.Content("~/Content/images/delete.png")" alt="delete" /></a></td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            if (Request.IsAuthenticated)
+                            {
+                                
+                                <table class="newComment collapseComment" id="">
+                                    <tr>
+                                        <td style="width:50px;vertical-align: top;"><div class="comImg"></div></td>
+                                        <td style="vertical-align:middle; min-height:40px;" class="comText" id="@cmDetails[12]">
+
+                                            @using (Html.BeginForm("NewParentReply", "Forum", FormMethod.Post, new { @class = "comTextdivParent", role = "form" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+
+                                                <table>
+                                                    <tr>
+                                                        <td>
+
+                                                            <textarea name="replyBody" id="@cmDetails[13]"></textarea>
+                                                            <script>
+                                                                CKEDITOR.replace('@cmDetails[13]');
+                                                                CKEDITOR.config.autoParagraph = false;
+                                                                $(function () {
+                                                                    $('input[type="submit"]').click(function () {
+                                                                        CKEDITOR.instances.ncmDetails[1].updateElement();
+                                                                    });
+                                                                });
+                                                            </script>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="btnStyle" type="submit" value="Comment" style="font-size:20px;" />
+                                                        </td>
+                                                        <td>
+                                                            <div class="micItem">
+                                                                <img onclick="startDictationReplyComment()" src="~/Content/images/mic.gif" />
+                                                                <script>
+                                                                    function startDictationReplyComment() {
+
+                                                        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+                                                            var recognition = new webkitSpeechRecognition();
+
+                                                            recognition.continuous = false;
+                                                            recognition.interimResults = false;
+
+                                                            recognition.lang = "en-GB";
+                                                            recognition.start();
+
+
+
+                                                            recognition.onresult = function(e) {
+                                                                document.getElementById('transcript').value
+                                                                                         = e.results[0][0].transcript;
+                                                                recognition.stop();
+
+                                                                if (document.getElementById('transcript').value == null) {
+                                                                    swal({
+                                                                        type: "error",
+                                                                        title: "We didn't catch that!",
+                                                                        text: "Try again to dictate your speech",
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false
+                                                                    });
+                                                                    //window.location.href = 'http://localhost:59658/Blog/Index';
+                                                                } else {
+                                                                    swal({
+                                                                        type: "success",
+                                                                        title: "Loud and Clear!",
+                                                                        text: "You Said: " + document.getElementById('transcript').value,
+                                                                        timer: 2000,
+                                                                        showConfirmButton: false
+                                                                    });
+                                                                    CKEDITOR.instances['@cmDetails[13]'].setData(document.getElementById('transcript').value, submitaftersetdata);
+                                                                }
+
+                                                            };
+
+                                                            recognition.onerror = function(e) {
+                                                                recognition.stop();
+                                                            }
+
+                                                        }
+                                                    }
+                                                                </script>
+
+                                                                <script>
+                                                   function submitaftersetdata() {
+                                                       this.updateElement();
+                                                   }
+                                                                </script>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <div class="comTextSub">
+                                                    <input value="@comment.Id" name="commentid" type="hidden" />
+                                                    <input value="@Model.UrlSeo" name="slug" type="hidden" />
+                                                    <input value="@Model.ID" name="postid" type="hidden" />
+                                                    <input value="@User.Identity.GetUserName()" name="comUserName" type="hidden" />
+                                                    
+                                                </div>
+
+                                            }
+                                        </td>
+                                        <td>
+                                            
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                        }
+
+                    </div>
+                </div>
+             
+                     <div class="commentreplies" id="@cmDetails[6]">
+                    @{Html.RenderPartial("Replies", new CommentViewModel(comment));}
+                </div>
+                
+               
+
+            </div>
+
+                        }
+    </div>
+</div>
+
+
+<form id="labnol1">
+    <div class="speech">
+        <input type="hidden" name="q2" id="transcript" placeholder="Speak" />
+    </div>
+</form>
+
+@section scripts {
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
+
+}

@@ -1,0 +1,41 @@
+﻿@model FinalYearProject.Models.PostViewModel
+@using FinalYearProject.Controllers
+@{
+    ViewBag.Title = "Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ForumController.checkCatList;
+}
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+@using (Html.BeginForm("Categories", "Forum", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <table class="catsAndTags">
+        <tr>
+            <th>Categories</th>            
+        </tr>
+        <tr>
+            <td><a href="@Url.Action("AddNewCategory", "Forum", new { callfrompost = false })" class="addremoveBtn" title="Add Category"><img src="@Url.Content("~/Content/images/add.png")" width="25" height="25" alt="add" style="float:left;" /><div style="float:left;margin-left:5px;">New Category</div></a></td>            
+        </tr>
+        <tr>
+            <td>
+                @foreach (var cat in categories)
+                {
+                    <div>
+                        <input type="checkbox" name="categoryNames" value="@cat.Category.Name" /> @cat.Category.Name
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input class="indexFiltBtn" type="submit" value="Remove" />
+            </td>
+        </tr>
+    </table>
+}
+
+@Scripts.Render("~/bundles/jqueryval")

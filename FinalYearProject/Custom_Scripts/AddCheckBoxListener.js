@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿
+
+
+$(document).ready(function () {
     $('.ActiveCheck').change(function () {
         var self = $(this);
         var id = self.attr('id');
@@ -17,3 +20,4 @@
         });
     });
 });
+

@@ -396,7 +396,7 @@ namespace FinalYearProject.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Blog");
+            return RedirectToAction("Index", "Home");
         }
 
         //

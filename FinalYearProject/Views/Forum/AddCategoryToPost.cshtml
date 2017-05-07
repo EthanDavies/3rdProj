@@ -1,0 +1,140 @@
+﻿@model FinalYearProject.Models.PostViewModel
+@using FinalYearProject.Models
+@{
+    ViewBag.Title = "AddCategoryToPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+<div class="addCat">
+    <label id="addCatMsg">Add a Category to your Post</label>
+</div>
+
+<div class="hoverDesc">
+    <label id="addCatDescMsg">Make sure to add a category to your post so other users can see what your post is about! If none of the current categories match your post, then feel free to create a new one!</label>
+</div>
+<hr />
+
+<div class="newCat">
+    <table>
+        <tr>
+            <td>
+                <label id="addCatMsg">Create New Category</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" id="catbtn" value="Create" onclick="location.href='@Url.Action("AddNewCategory", "Forum", new { postid = Model.ID, callfrompost=true})'" />
+
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<hr />
+
+@using (Html.BeginForm("AddCategoryToPost", "Forum", FormMethod.Post, new { @class = "addCatForm", role = "form" }))
+{
+
+    <div class="selectCat">
+        <label id="addCatMsg">Select Categories</label>
+    </div>
+
+    @Html.AntiForgeryToken()
+    <table class="addCatCont" style="overflow-y: scroll; height:400px;">
+
+        <tr>
+            <td></td>
+            <td>
+                @for (int i = 0; i < Model.Categories.Count(); i++)
+                {
+                    BlogDbContext db = new BlogDbContext();
+                    string catId = Model.Categories[i].Id;
+                    bool check = db.PostCategories.Where(x => x.CategoryId == catId && x.PostId == Model.ID).Select(x => x.Checked).FirstOrDefault();
+                    if (check)
+                    {
+                        Model.Categories[i].Checked = true;
+                        @Html.CheckBoxFor(m => m.Categories[i].Checked)
+                    }
+                    else
+                    {
+                        @Html.CheckBoxFor(m => m.Categories[i].Checked)
+                    }
+
+                    @Html.LabelFor(m => m.Categories[i].Checked, Model.Categories[i].Name)
+                    @Html.HiddenFor(m => m.Categories[i].Id)<br />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @Html.TextBoxFor(m => m.ID, new { type = "hidden" })
+                <input type="submit" class="btn btn-primary" id="savecat" value="Save" />
+
+            </td>
+        </tr>
+
+        
+    </table>
+
+
+    <hr />
+
+    
+}
+
+@section Scripts {
+<link href="~/Content/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+// say a message
+    function speak(text, callback) {
+        var u = new SpeechSynthesisUtterance();
+        u.text = text;
+        u.lang = 'en-GB';
+        u.onend = function () {
+            if (callback) {
+                callback();
+            }
+        };
+
+        u.onerror = function (e) {
+            if (callback) {
+                callback(e);
+            }
+        };
+        speechSynthesis.speak(u);
+    };
+</script>
+
+    <script>
+        document.getElementById('addCatDescMsg').onclick = function () {
+            var header = document.getElementById('addCatMsg').innerText;
+            var stop = ".";
+            var body = document.getElementById('addCatDescMsg').innerText;
+            speak((header + stop) + body);
+        };
+
+</script>
+
+
+<script type="text/javascript">
+        $(function () {
+            $('#savecat').click(function () {
+                swal({
+                    type: "success",
+                    title: "Categories Added",
+                    text: "Your selected categories have been added to the post",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            });
+        });
+</script>
+   
+    }

@@ -30,7 +30,7 @@
             <td>
                 <div class="googleSearch">
                     <div class="googleLabel"><label for="searchApp">Google Search</label></div>
-                    <img onclick="startDictationGoogle()" src="//i.imgur.com/cHidSVu.gif" />
+                    <img onclick="startDictationGoogle()" src="~/Content/images/mic.gif" />
 
                 </div>
             </td>
@@ -39,7 +39,7 @@
             <td>
                 <div class="appSearch">
                     <div class="appLabel"><label for="searchApp" id="appSearchSupport">Speech Navigation</label></div>
-                    <img onclick="startDictationApplication()" src="//i.imgur.com/cHidSVu.gif" />
+                    <img onclick="startDictationApplication()" src="~/Content/images/mic.gif" />
                 </div>
             </td>
         </tr>
@@ -105,7 +105,7 @@
             <td>
                 <div class="forum-row">
                     <a id="forumlink">Forum Posts</a>
-                    <button type="button" onclick="location.href='@Url.Action("Index", "Blog")'">
+                    <button type="button" onclick="location.href='@Url.Action("Index", "Forum")'">
                         <img alt="Forum" title="View and add forum posts" src="~/Content/images/forum.png">
                     </button>
                 </div>
@@ -177,21 +177,14 @@
 
     <script>
     function startDictationApplication() {
-
         if (window.hasOwnProperty('webkitSpeechRecognition')) {
-
             var recognition = new webkitSpeechRecognition();
-
             recognition.continuous = false;
             recognition.interimResults = false;
-
             recognition.lang = "en-GB";
             recognition.start();
-
             recognition.onresult = function(e) {
-                document.getElementById('transcript2').value
-                                         = e.results[0][0].transcript;
-
+                document.getElementById('transcript2').value = e.results[0][0].transcript;
                 recognition.stop();
                 if (document.getElementById('transcript2').value == "forum") {
                     swal({
@@ -201,7 +194,7 @@
                         timer: 2000,
                         showConfirmButton: false
                     });
-                    window.location.href = 'http://localhost:59658/Blog/Index';
+                    window.location.href = 'http://localhost:59658/Forum/Index';
                 } else if (document.getElementById('transcript2').value == "to do") {
                     swal({
                         type: "success",
@@ -267,16 +260,15 @@
                     });
                 }
             };
-
             recognition.onerror = function(e) {
                 recognition.stop();
             }
-
         }
     }
     </script>
 
     <script>
+
         function chatVoiceCommand() {
             swal({
                 title: "Speak: Chat Room",
@@ -369,10 +361,22 @@
         };
 
         document.getElementById('appSearchSupport').onclick = function () {
-            var support = "Forum" + '\n' + ", To Do" + '\n' + ", Chat Room" + '\n' + ", Materials" + '\n' + ", Account" + '\n' + ", Contact" + '\n' + ", About"
+            var support = "Forum" + '\n' + 
+                ", To Do" + '\n' + 
+                ", Chat Room" + '\n' + 
+                ", Materials" + '\n' + 
+                ", Account" + '\n' + 
+                ", Contact" + '\n' + 
+                ", About"
             swal({
                 title: "Supported Commands",
-                text: "1.) Forum" + '\n' + "2.) To Do" + '\n' + "3.) Chat Room" + '\n' + "4.) Materials" + '\n' + "5.) Account" + '\n' + "6.) Contact" + '\n' + "7.) About" ,
+                text: "1.) Forum" + 
+                    '\n' + "2.) To Do" + 
+                    '\n' + "3.) Chat Room" + 
+                    '\n' + "4.) Materials" + 
+                    '\n' + "5.) Account" + 
+                    '\n' + "6.) Contact" + 
+                    '\n' + "7.) About" ,
                 type: "info",
                 animation: "slide-from-top",
                 closeOnConfirm: true,
@@ -380,6 +384,7 @@
 
             speak(support);
         };
+
 </script>
 
 }

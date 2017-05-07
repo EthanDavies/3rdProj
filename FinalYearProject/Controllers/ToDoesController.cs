@@ -312,6 +312,15 @@ namespace FinalYearProject.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public ActionResult AJAXDelete(int? id)
+        {
+            ToDo toDo = db.ToDos.Find(id);
+            db.ToDos.Remove(toDo);
+            db.SaveChanges();
+            return PartialView("_ToDoTable", GetMyToDoes());
+        }
+
         /// <summary>
         /// Dispose method used for garbage collection when using the ToDo table
         /// </summary>
